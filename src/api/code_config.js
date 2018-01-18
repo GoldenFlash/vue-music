@@ -1,0 +1,1 @@
+export var ERR_OK = 200

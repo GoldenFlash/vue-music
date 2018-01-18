@@ -28,34 +28,69 @@
 				<i class="fa fa-angle-right"></i>
 			</div>
 			<div class="recommend-content">
-				<div class="item">
-					<img src="http://p4.music.126.net/6VeadnVO3CbPlD3f3aptGA==/109951163109970962.jpg?param=200y200" alt="">
-					<div class="description">华语速爆新歌</div>
+				<div class="item" v-for="item in recommendSongList" >
+					<img :src="item.picUrl" alt="">
+					<div class="description">{{item.name}}</div>
 				</div>
-				<div class="item">
-					<img src="http://p4.music.126.net/6VeadnVO3CbPlD3f3aptGA==/109951163109970962.jpg?param=200y200" alt="">
-					<div class="description">华语速爆新歌</div>
+				
+			</div>
+		</div>
+		<div class="exclusive-broadcast">
+			<div class="title">
+				<span>独家放送</span>
+				<i class="fa fa-angle-right"></i>
+			</div>
+			<div class="exclusive-broadcast-content">
+				<div class="item" v-for="item in exclusivebroadcastSongList" >
+					<img :src="item.picUrl" alt="">
+					<div class="description">{{item.name}}</div>
 				</div>
-				<div class="item">
-					<img src="http://p4.music.126.net/6VeadnVO3CbPlD3f3aptGA==/109951163109970962.jpg?param=200y200" alt="">
-					<div class="description">华语速爆新歌</div>
-				</div>
+				
 			</div>
 		</div>
 	</div>
 </template>
 <script type="text/javascript">
-	import axios from 'axios';
- 	import {getRecommendSongList} from 'api/recommend.js';
+	import {
+	    ERR_OK
+	} from 'api/code_config.js'
+	import {
+	    getRecommendSongList,
+	    getexclusivebroadcastSongList,
+	} from 'api/recommend.js';
 	export default {
 	    data() {
 	        return {
-
+	            recommendSongList: [],
+	            exclusivebroadcastSongList:[]
 	        }
 	    },
-	    mounted(){
-	    	// getRecommendSongList()
-	    	axios.get('/personalized?limit=9')
+	    mounted() {
+	        this._getRecommendSongList();
+	        this._getexclusivebroadcastSongList()
+	    },
+	    methods: {
+	        _getRecommendSongList() {
+	            var _this = this;
+	            getRecommendSongList().then(function(res) {
+	                if (res.data.code === 200) {
+	                    _this.recommendSongList = res.data.result;
+	                } else {
+	                    console.log("获取数据失败")
+	                };
+	            });
+	        },
+	        _getexclusivebroadcastSongList(){
+	        	var _this = this;
+	            getexclusivebroadcastSongList().then(function(res) {
+	                if (res.data.code === 200) {
+	                    _this.exclusivebroadcastSongList = res.data.result;
+	                } else {
+	                    console.log("获取数据失败")
+	                };
+	            });
+	        },
+
 	    }
 	}
 </script>
@@ -69,12 +104,14 @@
 	}
 	.musicClassify {
 	    display: flex;
+	    border-bottom:solid 1px #e6e8e9;
 	    text-align: center;
-	    margin: 0.3rem;
+	    margin: 0.3rem 0.3rem 0.5rem 0.3rem;
+	    padding:0.3rem;
 	    .item {
 
 	        flex: 1;
-	        height: 2.8rem;
+	        height: 2rem;
 	        &>i, &>span {
 	            display: block
 	        }
@@ -95,7 +132,7 @@
 	        }
 	    }
 	}
-	.recommend {
+	.recommend, .exclusive-broadcast {
 	    .title {
 	        margin-left: 0.2rem;
 	        &>span {
@@ -105,17 +142,23 @@
 	            font-size: $font-size-large-l
 	        }
 	    }
-	    .recommend-content {
+	    .recommend-content, .exclusive-broadcast-content {
 	        margin-top: 0.2rem;
+	        margin-left:0.1rem;
 	        .item {
+	        	box-sizing:border-box;
 	            display: inline-block;
-	            width: 32%;
-	            height: 4.70rem; // background-color: yellow;
+	            width: 33%;
+	            height: 5.1rem; // background-color: yellow;
+	            padding:1px;
 	            .description {
 	                width: 3.6rem;
-	                font-size: $font-size-medium;
+	                font-size: $font-size-small;
 	                margin-top: 0.1rem;
-	                margin-left: 0.1rem
+	                margin-left: 0.1rem;
+	                white-space:nowrap;
+	                overflow:hidden;
+	                text-overflow:ellipsis
 	            }
 	        }
 	    }
