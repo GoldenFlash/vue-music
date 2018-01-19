@@ -1,6 +1,8 @@
 <template>
 	<div>
-		<div class="carousel">轮播图</div>
+		<slider v-show="banners.length">
+			<div v-for="item in banners"><img :src="item.pic"></div>
+		</slider>
 		<div class="musicClassify">
 			<div class="item">
 				<i class="fa fa-cc"></i>
@@ -28,11 +30,10 @@
 				<i class="fa fa-angle-right"></i>
 			</div>
 			<div class="recommend-content">
-				<div class="item" v-for="item in recommendSongList" >
+				<div class="item" v-for="item in recommendSongList">
 					<img :src="item.picUrl" alt="">
 					<div class="description">{{item.name}}</div>
 				</div>
-				
 			</div>
 		</div>
 		<div class="exclusive-broadcast">
@@ -41,11 +42,10 @@
 				<i class="fa fa-angle-right"></i>
 			</div>
 			<div class="exclusive-broadcast-content">
-				<div class="item" v-for="item in exclusivebroadcastSongList" >
+				<div class="item" v-for="item in exclusivebroadcastSongList">
 					<img :src="item.picUrl" alt="">
 					<div class="description">{{item.name}}</div>
 				</div>
-				
 			</div>
 		</div>
 	</div>
@@ -53,21 +53,28 @@
 <script type="text/javascript">
 	import {
 	    ERR_OK
-	} from 'api/code_config.js'
+	} from 'api/code_config.js';
 	import {
 	    getRecommendSongList,
 	    getexclusivebroadcastSongList,
 	} from 'api/recommend.js';
+	import {getBanner} from 'api/banner.js'
+	import slider from 'base/slider/slider.vue'
 	export default {
 	    data() {
 	        return {
 	            recommendSongList: [],
-	            exclusivebroadcastSongList:[]
+	            exclusivebroadcastSongList: [],
+	            banners:[],
 	        }
 	    },
-	    mounted() {
+	    components: {
+	        slider
+	    },
+	    created() {
 	        this._getRecommendSongList();
-	        this._getexclusivebroadcastSongList()
+	        this._getexclusivebroadcastSongList();
+	        this._getBanner();
 	    },
 	    methods: {
 	        _getRecommendSongList() {
@@ -80,8 +87,8 @@
 	                };
 	            });
 	        },
-	        _getexclusivebroadcastSongList(){
-	        	var _this = this;
+	        _getexclusivebroadcastSongList() {
+	            var _this = this;
 	            getexclusivebroadcastSongList().then(function(res) {
 	                if (res.data.code === 200) {
 	                    _this.exclusivebroadcastSongList = res.data.result;
@@ -90,6 +97,13 @@
 	                };
 	            });
 	        },
+	        _getBanner(){
+	        	getBanner().then((res)=>{
+	        		 console.log(res.data.banners)
+	                this.banners = res.data.banners;
+	                
+	        	})
+	        }
 
 	    }
 	}
@@ -104,10 +118,10 @@
 	}
 	.musicClassify {
 	    display: flex;
-	    border-bottom:solid 1px #e6e8e9;
+	    border-bottom: solid 1px #e6e8e9;
 	    text-align: center;
 	    margin: 0.3rem 0.3rem 0.5rem 0.3rem;
-	    padding:0.3rem;
+	    padding: 0.3rem;
 	    .item {
 
 	        flex: 1;
@@ -117,17 +131,17 @@
 	        }
 	        &>i {
 	            color: rgb(211, 58, 49);
-	            font-size: 30px; // font-weight: 10;
+	            font-size: 1rem; // font-weight: 10;
 	            margin-bottom: 0.2rem;
 	        }
 	        .songlist {
 	            font-size: 0;
 	            .fa-align-left {
-	                font-size: 30px;
+	                font-size: 1rem;
 	                transform: rotateY(180deg) rotateZ(180deg);
 	            }
 	            span {
-	                font-size: 30px;
+	                font-size: 1rem;
 	            }
 	        }
 	    }
@@ -136,29 +150,29 @@
 	    .title {
 	        margin-left: 0.2rem;
 	        &>span {
-	            font-size: $font-size-large
+	            font-size: 0.6rem
 	        }
 	        .fa-angle-right {
-	            font-size: $font-size-large-l
+	            font-size: 0.8rem
 	        }
 	    }
 	    .recommend-content, .exclusive-broadcast-content {
 	        margin-top: 0.2rem;
-	        margin-left:0.1rem;
+	        margin-left: 0.1rem;
 	        .item {
-	        	box-sizing:border-box;
+	            box-sizing: border-box;
 	            display: inline-block;
 	            width: 33%;
 	            height: 5.1rem; // background-color: yellow;
-	            padding:1px;
+	            padding: 1px;
 	            .description {
 	                width: 3.6rem;
 	                font-size: $font-size-small;
 	                margin-top: 0.1rem;
 	                margin-left: 0.1rem;
-	                white-space:nowrap;
-	                overflow:hidden;
-	                text-overflow:ellipsis
+	                white-space: nowrap;
+	                overflow: hidden;
+	                text-overflow: ellipsis
 	            }
 	        }
 	    }

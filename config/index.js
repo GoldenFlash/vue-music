@@ -25,6 +25,9 @@ module.exports = {
       },
       '/personalized/privatecontent':{
         target:'http://localhost:3000'
+      },
+      '/banner':{
+        target:'http://localhost:3000'
       }
     },
 

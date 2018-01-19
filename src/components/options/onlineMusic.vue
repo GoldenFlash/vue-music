@@ -6,7 +6,10 @@
 			<span @click="goMusicVideo" :class="{'current':current==='MusicVideo'}">视频</span>
 			<span @click="goMusicRadio" :class="{'current':current==='MusicRadio'}">电台</span>
 		</div>
-		<router-view></router-view>
+		<keep-alive>
+			<!-- 利用缓存 -->
+			<router-view></router-view>
+		</keep-alive>
 	</div>
 </template>
 <script type="text/javascript">
@@ -50,7 +53,7 @@
 	        display: inline-block;
 	        padding: 0.3rem 0.4rem;
 	        margin: 0rem 1rem;
-	        font-size: $font-size-large
+	        font-size: 0.6rem
 	    }
 	}
 </style>
