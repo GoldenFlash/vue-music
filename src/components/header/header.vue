@@ -6,7 +6,7 @@
 		<span class="icon-music ">
 			<i class="fa fa-music"></i>
 		</span>
-		<span class="icon-note current" @click="goOptions">♪</span>
+		<span class="icon-note current" >♪</span>
 		<span class="icon-contact">
 			<i class="fa fa-qq"></i>
 		</span>
@@ -22,11 +22,7 @@
 
 	        }
 	    },
-	    methods: {
-	        goOptions() {
-	            this.$router.push('/onlineMusic')
-	        }
-	    }
+	  
 	}
 </script>
 <style lang="scss" rel="stylesheet/scss">

@@ -13,23 +13,27 @@
 	</div>
 </template>
 <script type="text/javascript">
+
 	export default {
 	    data() {
 	        return {
 	            current: 'MusicClassify',
 	        }
 	    },
+	    components:{
+	    	scroll
+	    },
 	    methods: {
 	        goMusicClassify() {
-	            this.$router.push('/onlineMusic/musicClassify');
+	            this.$router.push('/index/musicClassify');
 	            this.current = 'MusicClassify';
 	        },
 	        goMusicVideo() {
-	            this.$router.push('/onlineMusic/musicClassify');
+	            this.$router.push('/index/musicClassify');
 	            this.current = 'MusicVideo';
 	        },
 	        goMusicRadio() {
-	            this.$router.push('/onlineMusic/musicClassify');
+	            this.$router.push('/index/musicClassify');
 	            this.current = 'MusicRadio';
 	        },
 	    },

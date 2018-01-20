@@ -1,24 +1,29 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import onlineMusic from '@/components/options/onlineMusic.vue'
-import musicClassify from '@/components/options/musicClassify/musicClassify.vue'
+import index from '@/components/content/index.vue'
+import musicClassify from '@/components/content/musicClassify/musicClassify.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [{
-      path: '/',
-      name: 'HelloWorld',
+      path: '/HelloWorld',
       component: HelloWorld
     },
     {
-      path: '/onlineMusic',
+      path: '/',
       redirect: {
-        path: '/onlineMusic/musicClassify'
+        path: '/index/musicClassify'
       },
-      name: 'onlineMusic',
-      component: onlineMusic,
+    },
+    {
+      path: '/index',
+      redirect: {
+        path: '/index/musicClassify'
+      },
+      name: 'index',
+      component: index,
       children: [{
         path: 'musicClassify',
         component: musicClassify

@@ -131,6 +131,7 @@
 	.slider{
 		position:relative;
 		min-height:1px;
+		overflow:hidden;
 		.slider-group{
 			position:relative;
 			overflow:hidden;
