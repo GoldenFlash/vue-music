@@ -14,4 +14,7 @@ export var getexclusivebroadcastSongList = function() {
     	limit:4
     }
   })
+};
+export var getRecommendSongs= function() {
+  return axios.get('/recommend/songs')
 }

@@ -28,6 +28,18 @@ module.exports = {
       },
       '/banner':{
         target:'http://localhost:3000'
+      },
+      '/recommend/songs':{
+        target:'http://localhost:3000'
+      },
+      // '/login/*':{
+      //   target:'http://localhost:3000'
+      // },
+      '/**':{
+        target:'http://localhost:3000'
+      },
+      '/top/playlist':{
+        target:'http://localhost:3000'
       }
     },
 

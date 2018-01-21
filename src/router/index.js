@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import index from '@/components/content/index.vue'
 import musicClassify from '@/components/content/musicClassify/musicClassify.vue'
-
+import recommend from '@/components/recommend/recommend.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -28,6 +28,11 @@ export default new Router({
         path: 'musicClassify',
         component: musicClassify
       }]
+    },
+    {
+      path:'/recommend',
+      name:'recommend',
+      component:recommend,
     }
   ]
 })

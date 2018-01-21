@@ -7,7 +7,7 @@
 			<i class="fa fa-music"></i>
 		</span>
 		<span class="icon-note current" >♪</span>
-		<span class="icon-contact">
+		<span class="icon-contact" @click="login">
 			<i class="fa fa-qq"></i>
 		</span>
 		<span class="icon-search">
@@ -16,12 +16,20 @@
 	</div>
 </template>
 <script type="text/javascript">
+import axios from 'axios';
 	export default {
 	    data() {
 	        return {
 
 	        }
 	    },
+	    methods:{
+	    	login(){
+	    		axios.get('/login/cellphone?phone=18655483280&password=wangwei531221571').then((res)=>{
+	    			console.log('登录成功')
+	    		})
+	    	}
+	    }
 	  
 	}
 </script>

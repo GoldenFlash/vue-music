@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<!-- <scroll :data="refresh" ref="scroll"> -->
+		<scroll :data="refresh" ref="scroll">
 			<div>
 				<div class="slider-wrapper">
 				<slider v-if="banners.length">
@@ -10,11 +10,11 @@
 				</slider>
 			</div>
 			<div class="musicClassify">
-				<div class="item" @click="click">
+				<div class="item" >
 					<i class="fa fa-cc"></i>
 					<span>私人FM</span>
 				</div>
-				<div class="item">
+				<div class="item" @click="goRecommend">
 					<i class="fa fa-calendar"></i>
 					<span>每日推荐</span>
 				</div>
@@ -62,7 +62,7 @@
 				</div>
 			</div>
 			</div>
-		<!-- </scroll> -->
+		</scroll>
 	</div>
 </template>
 <script type="text/javascript">
@@ -72,6 +72,8 @@
 	import {getRecommendSongList,getexclusivebroadcastSongList,} from 'api/recommend.js';
 	import {getBanner} from 'api/banner.js'
 	import {getNewSongs} from 'api/newsongs'
+	import {getRecommendSongs} from 'api/recommend.js'
+
 	export default {
 	    data() {
 	        return {
@@ -91,10 +93,18 @@
 	        this._getexclusivebroadcastSongList();
 	        this._getBanner();
 	        this._getNewSongs();
+	        this.refresh()
 	    },
 	    methods: {
-	    	click(){
-	    		console.log(1)
+	    	refresh(){
+	    		setTimeout(()=>{
+	            	this.$refs.scroll.refresh();
+	            },5000)
+	    	},
+	    	goRecommend(){
+	    		this.$router.push({
+	    			path:'/recommend'
+	    		})
 	    	},
 	    	Imageloaded(){
 	    		this.$refs.scroll.refresh();
@@ -109,9 +119,7 @@
 	                    console.log("获取数据失败")
 	                };
 	            });
-	            setTimeout(()=>{
-	            	this.refresh = ['a','b']
-	            })
+	            
 	        },
 	        _getexclusivebroadcastSongList() {
 	            var _this = this;
@@ -138,12 +146,17 @@
 	        			this.newSongs = res.data.result
 	        		}
 	        	})
-	        }
+	        },
+	        _getRecommendSongs(){
+				getRecommendSongs().then((res)=>{
+					console.log(res.data)
+				})
+			},
 
 	    }
 	}
 </script>
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss" scoped>
 	@import '../../../common/style/variable.scss';
 	.slider-wrapper {
 	    width: 100%;
