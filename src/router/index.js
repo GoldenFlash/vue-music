@@ -4,6 +4,8 @@ import HelloWorld from '@/components/HelloWorld'
 import index from '@/components/content/index.vue'
 import musicClassify from '@/components/content/musicClassify/musicClassify.vue'
 import recommend from '@/components/recommend/recommend.vue'
+import songsList from '@/components/songsList/songsList.vue'
+import rankingList from '@/components/rankingList/rankingList.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -30,9 +32,19 @@ export default new Router({
       }]
     },
     {
-      path:'/recommend',
-      name:'recommend',
-      component:recommend,
+      path: '/recommend',
+      name: 'recommend',
+      component: recommend,
+    },
+    {
+      path:'/songsList',
+      name:'songsList',
+      component:songsList
+    } ,
+    {
+      path:'/rankingList',
+      name:'rankingList',
+      component:rankingList
     }
   ]
 })

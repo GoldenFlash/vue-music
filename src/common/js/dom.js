@@ -4,7 +4,7 @@ export function hasClass(el, className) {
 }
 
 export function addClass(el, className) {
-  console.log('addClass')
+  
   if (hasClass(el, className)) {
     return
   }

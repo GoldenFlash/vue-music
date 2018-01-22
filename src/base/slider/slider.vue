@@ -35,7 +35,7 @@
 		},
 		mounted(){
 
-			console.log('slider')
+			
 			setTimeout(()=>{
 				this._setSliderWidth() //设置轮播总宽度
 				this._initDots() //初始化dot
@@ -112,7 +112,7 @@
 		        })
 		      },
 		      _initDots() {
-		      	console.log(this.children)
+		      	
 		        this.dots = new Array(this.children.length)  // 就是一个简单的数组
 		      },
 		      _play() {       // 轮播

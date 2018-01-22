@@ -5,7 +5,7 @@
 	</div>
 </template>
 <script>
-	import vHeader from './components/header/header.vue'
+	import vHeader from './components/part/header.vue'
 	export default {
 	    name: 'app',
 	    components: {

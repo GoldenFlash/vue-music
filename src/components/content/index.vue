@@ -42,9 +42,11 @@
 	    }
 	}
 </script>
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss" scoped>
 	@import '../../common/style/variable.scss';
 	.onlineMusic-options {
+		width:100%;
+		
 	    text-align: center;
 	    margin-top: 0.3rem;
 	    color: #666666;

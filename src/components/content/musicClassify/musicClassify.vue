@@ -3,64 +3,64 @@
 		<scroll :data="refresh" ref="scroll">
 			<div>
 				<div class="slider-wrapper">
-				<slider v-if="banners.length">
-					<div v-for="item in banners">
-						<img :src="item.pic" >
+					<slider v-if="banners.length">
+						<div v-for="item in banners">
+							<img :src="item.pic">
+						</div>
+					</slider>
+				</div>
+				<div class="musicClassify">
+					<div class="item">
+						<i class="fa fa-cc"></i>
+						<span>私人FM</span>
 					</div>
-				</slider>
-			</div>
-			<div class="musicClassify">
-				<div class="item" >
-					<i class="fa fa-cc"></i>
-					<span>私人FM</span>
-				</div>
-				<div class="item" @click="goRecommend">
-					<i class="fa fa-calendar"></i>
-					<span>每日推荐</span>
-				</div>
-				<div class="item">
-					<i class="songlist">
-						<i class="fa fa-align-left"></i>
-						<span>♪</span>
-					</i>
-					<span>歌单</span>
-				</div>
-				<div class="item">
-					<i class="fa fa-bar-chart"></i>
-					<span>排行榜</span>
-				</div>
-			</div>
-			<div class="recommend">
-				<div class="title">
-					<span>推荐歌单</span>
-					<i class="fa fa-angle-right"></i>
-				</div>
-				<div class="recommend-content">
-					<div class="item" v-for="item in recommendSongList">
-						<img :src="item.picUrl" alt="" >
-						<div class="description">{{item.name}}</div>
+					<div class="item" @click="goRecommend">
+						<i class="fa fa-calendar"></i>
+						<span>每日推荐</span>
+					</div>
+					<div class="item" @click="goSongsList">
+						<i class="songlist">
+							<i class="fa fa-align-left"></i>
+							<span>♪</span>
+						</i>
+						<span>歌单</span>
+					</div>
+					<div class="item" @click="goRankingList">
+						<i class="fa fa-bar-chart"></i>
+						<span>排行榜</span>
 					</div>
 				</div>
-			</div>
-			<div class="newSongs">
-				<div class="title">
-					<span>最新音乐</span>
-					<i class="fa fa-angle-right"></i>
+				<div class="recommend">
+					<div class="title">
+						<span>推荐歌单</span>
+						<i class="fa fa-angle-right"></i>
+					</div>
+					<div class="recommend-content">
+						<div class="item" v-for="item in recommendSongList">
+							<img :src="item.picUrl" alt="">
+							<div class="description">{{item.name}}</div>
+						</div>
+					</div>
 				</div>
-				<div class="newSongs-wrapper">
-					<div class="item" v-for="item in newSongs ">
-						<div class="songs-info">
-							<div class="name">{{item.song.name}}</div>
-							<div class="singer">
-								{{item.song.artists[0].name}} - {{item.song.album.name}}
+				<div class="newSongs">
+					<div class="title">
+						<span>最新音乐</span>
+						<i class="fa fa-angle-right"></i>
+					</div>
+					<div class="newSongs-wrapper">
+						<div class="item" v-for="item in newSongs ">
+							<div class="songs-info">
+								<div class="name">{{item.song.name}}</div>
+								<div class="singer">
+									{{item.song.artists[0].name}} - {{item.song.album.name}}
+								</div>
+							</div>
+							<div class="icon-play">
+								<i class="fa fa-play-circle-o"></i>
 							</div>
 						</div>
-						<div class="icon-play">
-							<i class="fa fa-play-circle-o"></i>
-						</div>
 					</div>
 				</div>
-			</div>
 			</div>
 		</scroll>
 	</div>
@@ -68,11 +68,22 @@
 <script type="text/javascript">
 	import scroll from 'base/scroll/scroll2.vue'
 	import slider from 'base/slider/slider.vue';
-	import {ERR_OK} from 'api/code_config.js';
-	import {getRecommendSongList,getexclusivebroadcastSongList,} from 'api/recommend.js';
-	import {getBanner} from 'api/banner.js'
-	import {getNewSongs} from 'api/newsongs'
-	import {getRecommendSongs} from 'api/recommend.js'
+	import {
+	    ERR_OK
+	} from 'api/code_config.js';
+	import {
+	    getRecommendSongList,
+	    getexclusivebroadcastSongList,
+	} from 'api/recommend.js';
+	import {
+	    getBanner
+	} from 'api/banner.js'
+	import {
+	    getNewSongs
+	} from 'api/newsongs'
+	import {
+	    getRecommendSongs
+	} from 'api/recommend.js'
 
 	export default {
 	    data() {
@@ -80,8 +91,8 @@
 	            recommendSongList: [],
 	            exclusivebroadcastSongList: [],
 	            banners: [],
-	            newSongs:[],
-	            refresh:[],
+	            newSongs: [],
+	            refresh: [],
 	        }
 	    },
 	    components: {
@@ -93,23 +104,33 @@
 	        this._getexclusivebroadcastSongList();
 	        this._getBanner();
 	        this._getNewSongs();
-	        this.refresh()
+	        // this._refresh();
 	    },
 	    methods: {
-	    	refresh(){
-	    		setTimeout(()=>{
-	            	this.$refs.scroll.refresh();
-	            },5000)
-	    	},
-	    	goRecommend(){
-	    		this.$router.push({
-	    			path:'/recommend'
-	    		})
-	    	},
-	    	Imageloaded(){
-	    		this.$refs.scroll.refresh();
-	    		this.refresh=[1,1,2,2]
-	    	},
+	        // _refresh() {
+	        //     setTimeout(() => {
+	        //         this.$refs.scroll.refresh();
+	        //     }, 5000)
+	        // },
+	        goRankingList(){
+	        	this.$router.push({
+	        		path:'/rankingList'
+	        	})
+	        },
+	        goSongsList(){
+	        	this.$router.push({
+	        		path:'/songsList'
+	        	})
+	        },
+	        goRecommend() {
+	            this.$router.push({
+	                path: '/recommend'
+	            })
+	        },
+	        Imageloaded() {
+	            this.$refs.scroll.refresh();
+	            this.refresh = [1, 1, 2, 2]
+	        },
 	        _getRecommendSongList() {
 	            var _this = this;
 	            getRecommendSongList().then(function(res) {
@@ -119,7 +140,7 @@
 	                    console.log("获取数据失败")
 	                };
 	            });
-	            
+
 	        },
 	        _getexclusivebroadcastSongList() {
 	            var _this = this;
@@ -133,25 +154,19 @@
 	        },
 	        _getBanner() {
 	            getBanner().then((res) => {
-	                console.log(res.data.banners)
+
 	                this.banners = res.data.banners;
 
 	            })
 	        },
-	        _getNewSongs(){
-	        	getNewSongs().then((res)=>{
-	        		console.log(res)
-	        		if(res.data.code ===200){
-	        			console.log(res.data)
-	        			this.newSongs = res.data.result
-	        		}
-	        	})
+	        _getNewSongs() {
+	            getNewSongs().then((res) => {
+	                if (res.data.code === 200) {
+	                    this.newSongs = res.data.result
+	                }
+	            })
 	        },
-	        _getRecommendSongs(){
-				getRecommendSongs().then((res)=>{
-					console.log(res.data)
-				})
-			},
+
 
 	    }
 	}
@@ -202,7 +217,7 @@
 	            font-size: 0.8rem
 	        }
 	    }
-	    .recommend-content{
+	    .recommend-content {
 	        margin-top: 0.2rem;
 	        margin-left: 0.1rem;
 	        .item {
@@ -223,8 +238,8 @@
 	        }
 	    }
 	}
-	.newSongs{
-		.title {
+	.newSongs {
+	    .title {
 	        margin-left: 0.2rem;
 	        &>span {
 	            font-size: 0.6rem
@@ -233,37 +248,36 @@
 	            font-size: 0.8rem
 	        }
 	    }
-	    .newSongs-wrapper{
-	    	margin-top:0.2rem;
-	    	margin-left:0.2rem;
-	    	.item{
-				padding:0.4rem 0;
-				border-bottom:solid #e6e8e9 1px;
-				.songs-info{
-					display:inline-block;
-					width:70%;
-					white-space:nowrap;
-					overflow:hidden;
-					text-overflow:ellipsis;
-					.name{
-						font-size:0.6rem;
-					}
-					.singer{
-						margin-top:0.3rem;
-						font-size:0.5rem	
-					}
-
-				}
-	    	}
-	    	.icon-play{
-				// width:10px;
-				display:inline-block;
-				font-size:0.8rem;
-				margin-left:1.6rem;
-				vertical-align:top;
-				margin-top:0.3rem;
-				color:#AAAAAA;
-			}
+	    .newSongs-wrapper {
+	        margin-top: 0.2rem;
+	        margin-left: 0.2rem;
+	        .item {
+	            padding: 0.4rem 0;
+	            border-bottom: solid #e6e8e9 1px;
+	            .songs-info {
+	                display: inline-block;
+	                width: 70%;
+	                white-space: nowrap;
+	                overflow: hidden;
+	                text-overflow: ellipsis;
+	                .name {
+	                    font-size: 0.6rem;
+	                }
+	                .singer {
+	                    margin-top: 0.3rem;
+	                    font-size: 0.5rem
+	                }
+	            }
+	        }
+	        .icon-play {
+	            // width:10px;
+	            display: inline-block;
+	            font-size: 0.8rem;
+	            margin-left: 1.6rem;
+	            vertical-align: top;
+	            margin-top: 0.3rem;
+	            color: #AAAAAA;
+	        }
 	    }
 	}
 </style>

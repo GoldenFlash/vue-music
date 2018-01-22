@@ -1,11 +1,6 @@
 <template>
 	<div class="recommend">
-		<div class="title">
-			<div class="icon" @click="gohistory(-1)">
-				<i class="fa fa-arrow-left"></i>
-			</div>
-			<div class="name">每日推荐</div>
-		</div>
+		<directer><span>每日推荐</span></directer>
 		<div class="button">
 			<div class="icon">
 				<i class="fa fa-play-circle-o" ></i>
@@ -28,58 +23,38 @@
 <script type="text/javascript">
 	import {getRecommendSongs} from 'api/recommend.js'
 	import axios from 'axios';
+	import directer from '@/components/part/directer.vue'
 	export default{
 		data(){
 			return{
 				recommendSongs:[],
 			}
 		},
+		components:{
+			directer
+		},
 		mounted(){
 			
 			this._getRecommendSongs()
 		},
 		methods:{
-			gohistory(value){
-				this.$router.go(value)
-			},
+			
 			_getRecommendSongs(){
 				getRecommendSongs().then((res)=>{
 					this.recommendSongs=res.data.recommend
 				})
-				
 			},
-			loginRefresh(){
-				axios.get('/login/refresh')
-			},
-			login(){
-				axios.get('http://localhost:3000/login/cellphone?phone=18655483280&password=wangwei531221571')
-			}
 		}
 	}
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
+
 	.recommend{
 		
 		
 		padding:0;
-		width:100%;
-		.title{
-			box-sizing:border-box;
-			width:100%;
-			padding:0.5rem;
-			
-			background-color: rgb(211, 58, 49);
-			.icon, .name{
-				font-size:0.8rem;
-				color:#FFFFFF;
-				display:inline-block;
-			}
-			.icon{
-				padding-right:0.4rem;
-				font-size:1rem;
-				font-weight:1
-			}
-		}
+		
+		
 		.button{
 			padding:0.5rem;
 			.icon,.name{
@@ -92,6 +67,7 @@
 
 		}
 		.song-wrapper{
+
 			.item{
 				padding:0.5rem;
 				margin:0.2rem;
@@ -107,11 +83,12 @@
 					display:inline-block;
 					vertical-align:top;
 					margin-left:0.2rem;
-					width:80%;
+					width:70%;
 					padding:0.1rem;
 					.name{
 						font-size:0.6rem;
 						white-space:nowrap;
+						overflow:hidden;
 					}
 					.singer{
 						margin-top:0.2rem
