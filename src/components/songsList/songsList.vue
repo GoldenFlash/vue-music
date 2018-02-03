@@ -4,16 +4,18 @@
 		<div class="songsList-wrapper">
 			<div class="item" v-for="item in songsList">
 				<div class="img">
-					<img :src="item.coverImgUrl" alt="" >
+					<img v-lazy="item.coverImgUrl" alt="" >
 				</div>
 				<div class="name">{{item.name}}</div>
 			</div>
 		</div>
+		<loading v-show="!songsList.length"></loading>
 	</div>
 </template>
 <script type="text/javascript">
 import axios from 'axios';
 import directer from '@/components/part/directer.vue';
+import loading from '@/base/loading/loading.vue'
 	export default{
 		data(){
 			return{
@@ -21,7 +23,8 @@ import directer from '@/components/part/directer.vue';
 			}
 		},
 		components:{
-			directer
+			directer,
+			loading
 		},
 		mounted(){
 			this.getSongsList()

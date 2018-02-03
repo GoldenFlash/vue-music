@@ -6,6 +6,8 @@ import musicClassify from '@/components/content/musicClassify/musicClassify.vue'
 import recommend from '@/components/recommend/recommend.vue'
 import songsList from '@/components/songsList/songsList.vue'
 import rankingList from '@/components/rankingList/rankingList.vue'
+import personalFM from '@/components/personalFM/personalFM.vue'
+import player from '@/components/player/player.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -45,6 +47,11 @@ export default new Router({
       path:'/rankingList',
       name:'rankingList',
       component:rankingList
-    }
+    },
+    {
+      path:'/personalFM',
+      name:'personalFM',
+      component:player
+    },
   ]
 })

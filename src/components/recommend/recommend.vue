@@ -10,7 +10,7 @@
 		<div class="song-wrapper">
 			<div class="item" v-for ="item in recommendSongs">
 				<div class="img">
-					<img :src="item.album.picUrl" alt="" >
+					<img v-lazy="item.album.picUrl" alt="" >
 				</div>
 				<div class="detail">
 					<div class="name">{{item.name}}</div>
@@ -18,12 +18,14 @@
 				</div>
 			</div>
 		</div>
+		<loading v-show="!recommendSongs.length"></loading>
 	</div>
 </template>
 <script type="text/javascript">
 	import {getRecommendSongs} from 'api/recommend.js'
 	import axios from 'axios';
 	import directer from '@/components/part/directer.vue'
+	import loading from '@/base/loading/loading.vue'
 	export default{
 		data(){
 			return{
@@ -31,7 +33,8 @@
 			}
 		},
 		components:{
-			directer
+			directer,
+			loading
 		},
 		mounted(){
 			
@@ -80,6 +83,7 @@
 					}
 				}
 				.detail{
+					
 					display:inline-block;
 					vertical-align:top;
 					margin-left:0.2rem;
@@ -91,6 +95,7 @@
 						overflow:hidden;
 					}
 					.singer{
+						color:#666;
 						margin-top:0.2rem
 					}
 				}

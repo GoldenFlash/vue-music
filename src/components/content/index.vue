@@ -1,5 +1,6 @@
 <template>
 	<div class="onlineMusic">
+		<v-header></v-header>
 		<div class="onlineMusic-options">
 			<span @click="goMusicClassify" :class="{'current':current==='MusicClassify'}
 ">音乐</span>
@@ -13,7 +14,7 @@
 	</div>
 </template>
 <script type="text/javascript">
-
+import vHeader from '@/components/part/header.vue'
 	export default {
 	    data() {
 	        return {
@@ -21,7 +22,8 @@
 	        }
 	    },
 	    components:{
-	    	scroll
+	    	scroll,
+	    	vHeader
 	    },
 	    methods: {
 	        goMusicClassify() {

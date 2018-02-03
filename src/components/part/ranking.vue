@@ -5,7 +5,7 @@
 				<div class="img">
 					<slot></slot>
 				</div>
-				<div class="detail">
+				<div class="detail" v-show="rankingList.length">
 					<div class="item" v-for="(item,index) in rankingList">
 						<div class="descript">{{index+1}}.{{item.name}} - {{item.ar[0].name}}</div>
 					</div>

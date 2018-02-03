@@ -10,7 +10,7 @@
 					</slider>
 				</div>
 				<div class="musicClassify">
-					<div class="item">
+					<div class="item" @click="goFM">
 						<i class="fa fa-cc"></i>
 						<span>私人FM</span>
 					</div>
@@ -31,13 +31,13 @@
 					</div>
 				</div>
 				<div class="recommend">
-					<div class="title">
+					<div class="title" @click="goRecommend">
 						<span>推荐歌单</span>
 						<i class="fa fa-angle-right"></i>
 					</div>
-					<div class="recommend-content">
+					<div class="recommend-content" v-show="recommendSongList.length">
 						<div class="item" v-for="item in recommendSongList">
-							<img :src="item.picUrl" alt="">
+							<img v-lazy="item.picUrl">
 							<div class="description">{{item.name}}</div>
 						</div>
 					</div>
@@ -47,7 +47,7 @@
 						<span>最新音乐</span>
 						<i class="fa fa-angle-right"></i>
 					</div>
-					<div class="newSongs-wrapper">
+					<div class="newSongs-wrapper" v-show="newSongs.length">
 						<div class="item" v-for="item in newSongs ">
 							<div class="songs-info">
 								<div class="name">{{item.song.name}}</div>
@@ -62,12 +62,14 @@
 					</div>
 				</div>
 			</div>
+			<loading v-show="!loading"></loading>
 		</scroll>
 	</div>
 </template>
 <script type="text/javascript">
 	import scroll from 'base/scroll/scroll2.vue'
 	import slider from 'base/slider/slider.vue';
+	import loading from '@/base/loading/loading.vue'
 	import {
 	    ERR_OK
 	} from 'api/code_config.js';
@@ -84,7 +86,12 @@
 	import {
 	    getRecommendSongs
 	} from 'api/recommend.js'
-
+	import {
+	    getFm
+	} from 'api/getFm.js'
+	import {
+	    musicFormate
+	} from 'common/js/musicFormate.js'
 	export default {
 	    data() {
 	        return {
@@ -97,8 +104,10 @@
 	    },
 	    components: {
 	        slider,
-	        scroll
+	        scroll,
+	        loading
 	    },
+
 	    mounted() {
 	        this._getRecommendSongList();
 	        this._getexclusivebroadcastSongList();
@@ -106,21 +115,55 @@
 	        this._getNewSongs();
 	        // this._refresh();
 	    },
+	    computed: {
+	        loading() {
+	            if (this.recommendSongList.length && this.exclusivebroadcastSongList.length && this.banners.length && this.newSongs.length) {
+	                return true
+	            } else {
+	                return false
+	            }
+	        }
+	    },
 	    methods: {
+	        goFM() {
+	            this._getFm().then(() => {
+	                this.$router.push({
+	                    path: '/personalFM',
+	                    query:{
+	                    	type:'fm'
+	                    }
+	                })
+
+	            });
+
+	        },
+	        _getFm() {
+	            return new Promise((resolve, reject) => {
+	                getFm().then((res) => {
+	                    if (res.data.code === 200) {
+	                        var data = res.data.data;
+	                        data = musicFormate(data);
+
+	                        this.$store.commit('setMusiclist', data);
+	                        resolve();
+	                    }
+	                })
+	            })
+	        },
 	        // _refresh() {
 	        //     setTimeout(() => {
 	        //         this.$refs.scroll.refresh();
 	        //     }, 5000)
 	        // },
-	        goRankingList(){
-	        	this.$router.push({
-	        		path:'/rankingList'
-	        	})
+	        goRankingList() {
+	            this.$router.push({
+	                path: '/rankingList'
+	            })
 	        },
-	        goSongsList(){
-	        	this.$router.push({
-	        		path:'/songsList'
-	        	})
+	        goSongsList() {
+	            this.$router.push({
+	                path: '/songsList'
+	            })
 	        },
 	        goRecommend() {
 	            this.$router.push({
@@ -173,6 +216,9 @@
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
 	@import '../../../common/style/variable.scss';
+	.loading {
+	    position: absolute;
+	}
 	.slider-wrapper {
 	    width: 100%;
 	    text-align: center
@@ -233,7 +279,8 @@
 	                margin-left: 0.1rem;
 	                white-space: nowrap;
 	                overflow: hidden;
-	                text-overflow: ellipsis
+	                text-overflow: ellipsis;
+	                color: #666;
 	            }
 	        }
 	    }
