@@ -22,7 +22,7 @@
         default: false
       },
       data: {
-        type: Array,    // 传入的列表数据
+        type: [Number,Array],    // 传入的列表数据
         default: null
       },
       pullup: {         // 是否派发滚动到底部的事件，用于上拉加载
@@ -93,7 +93,7 @@
     watch: {
       data() {  // 监控容器内部高度变化
         setTimeout(() => {
-          this.refresh()
+          this.scroll.refresh();
         }, this.refreshDelay)
       }
     }

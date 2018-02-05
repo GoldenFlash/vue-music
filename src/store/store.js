@@ -14,6 +14,10 @@ export default new Vuex.Store({
 				state.musiclist.push(item)
 			})
 			
+		},
+		deleteSongs(state,value){
+			state.musiclist.splice(value,1)
+			
 		}
 	}
 })

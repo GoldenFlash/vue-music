@@ -38,13 +38,18 @@
 					</div>
 				</div>
 				<div class="lyric" v-if="lyrics.length">
-					<transition name="slide-fade">
+					<div v-show='typeof(lyrics)==="object"'>
 						<ul ref="lyric" class="item-wrapper">
 							<li v-for="(value,index) in lyrics" :data-time="value.time" :class='[{"active":currentLyricIndex===index},"item"]'>
 								{{value.text}}
 							</li>
 						</ul>
-					</transition>
+					</div>
+					<div v-show='typeof(lyrics)==="string"' class="item-wrapper">
+						<div class="nolyric">
+							{{lyrics}}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -89,7 +94,7 @@
 	    getFm
 	} from 'api/getFm.js'
 	import {
-	    musicFormate
+	    fmFormate
 	} from 'common/js/musicFormate.js'
 	import {
 	    formateTime
@@ -136,6 +141,7 @@
 	    	initvolume(){
 	    		var barInner = this.$refs.voice.querySelector(".bar-outer .bar-inner")
 	    		var volume = this.$refs.audio.volume;
+	    		volume = 0.3;
 	    		barInner.style.width = volume*100+"%";
 	    	},
 	    	setvoice($event){
@@ -147,7 +153,7 @@
 	    		var offsetLeft = barOuter.offsetLeft;
 	    		voice.style.width = (pageX - offsetLeft)*100/offsetWidth+"%";
 	    		var volume = (pageX - offsetLeft)/offsetWidth;
-	    		if(0<=volume<=1){
+	    		if(volume>=0 && volume<=1){
 	    			this.$refs.audio.volume = volume;
 	    		}
 	    	},
@@ -262,17 +268,24 @@
 	                var id = this.song.id;
 	                getLyric(id).then((res) => {
 	                    
-	                    var lyrics = formateLyric(res.data.lrc.lyric)
-	                    this.lyrics = lyrics;
-	                    this.$nextTick(()=>{
-	                   	this.renderLyric()
-	                   })
+	                   if(res.data.code ===200){
+		                   	if(res.data.nolyric){
+		                   		this.lyric = "纯音乐请欣赏"
+		                   	}else{
+		                   		var lyrics = formateLyric(res.data.lrc.lyric)
+			                    this.lyrics = lyrics;
+			                    this.$nextTick(()=>{
+			                   	this.renderLyric();
+			                   	});
+		                   	};
+	                   	 	
+	                   };
 
-	                })
-	            }
+	                });
+	            };
 	        },
 	        _renderLyric(){
-	        	if(this.arrangeLyric){
+	        	if(this.arrangeLyric && this.lyrics.length && typeof(this.lyrics)==="object"){
 		        	this.$nextTick(()=>{
 		        		this.lyricTimer = setInterval(this.renderLyric,500);
 		        	})
@@ -332,7 +345,7 @@
 	                getFm().then((res) => {
 	                    if (res.data.code === 200) {
 	                        var data = res.data.data;
-	                        data = musicFormate(data);
+	                        data = fmFormate(data);
 	                        this.$store.commit('addMusiclist', data);
 	                    }
 	                })
@@ -403,14 +416,16 @@
 	        }
 	    }
 	    .content {
-	        height: 14rem;
+	        height: 13.5rem;
 	        padding: 0.2rem 0.6rem;
 	        overflow: hidden;
 	        .content-wrapper {
 	            .img {
+	            	margin:0 auto;
+	                    width: 10rem;
+	                    height: 10rem;
 	                img {
-	                    width: 100%;
-	                    height: 11rem;
+	                	width:100%;
 	                }
 	            }
 	            .detail {
@@ -501,6 +516,10 @@
 	                    .active {
 	                        color: #FFFFFF;
 	                    }
+	                     .nolyric{
+	                    	font-size:0.8rem;
+	                    	color:#FFFFFF;
+	                    }
 	                }
 	            }
 	        }
@@ -519,6 +538,8 @@
 	            }
 	            .play, .next, .previous, .delete, .comment {
 	                padding: 0.2rem;
+	                flex:1;
+	                text-align:center;
 	            }
 	        }
 	        .process {

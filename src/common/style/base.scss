@@ -9,4 +9,9 @@ body, html {
 html {
   font-size: 30px;
   color:#333;
+  .fa{
+  	-webkit-font-smoothing: antialiased;
+	-webkit-text-stroke-width: 0.2px;
+
+  }
 }

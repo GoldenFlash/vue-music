@@ -36,7 +36,7 @@
 						<i class="fa fa-angle-right"></i>
 					</div>
 					<div class="recommend-content" v-show="recommendSongList.length">
-						<div class="item" v-for="item in recommendSongList">
+						<div class="item" v-for="item in recommendSongList" @click="goSonglistDetail(item.id,item.picUrl)">
 							<img v-lazy="item.picUrl">
 							<div class="description">{{item.name}}</div>
 						</div>
@@ -48,11 +48,11 @@
 						<i class="fa fa-angle-right"></i>
 					</div>
 					<div class="newSongs-wrapper" v-show="newSongs.length">
-						<div class="item" v-for="item in newSongs ">
+						<div class="item" v-for="(item,index) in newSongs" @click="goPlayer(index)">
 							<div class="songs-info">
-								<div class="name">{{item.song.name}}</div>
+								<div class="name">{{item.name}}</div>
 								<div class="singer">
-									{{item.song.artists[0].name}} - {{item.song.album.name}}
+									{{item.singer}} - {{item.albumName}}
 								</div>
 							</div>
 							<div class="icon-play">
@@ -62,7 +62,7 @@
 					</div>
 				</div>
 			</div>
-			<loading v-show="!loading"></loading>
+			<!-- <loading v-show="!loading"></loading> -->
 		</scroll>
 	</div>
 </template>
@@ -90,8 +90,10 @@
 	    getFm
 	} from 'api/getFm.js'
 	import {
-	    musicFormate
+	    fmFormate,newSongsFormate
 	} from 'common/js/musicFormate.js'
+	
+
 	export default {
 	    data() {
 	        return {
@@ -113,9 +115,10 @@
 	        this._getexclusivebroadcastSongList();
 	        this._getBanner();
 	        this._getNewSongs();
-	        // this._refresh();
+	        
 	    },
 	    computed: {
+	    	
 	        loading() {
 	            if (this.recommendSongList.length && this.exclusivebroadcastSongList.length && this.banners.length && this.newSongs.length) {
 	                return true
@@ -125,6 +128,26 @@
 	        }
 	    },
 	    methods: {
+	    	goSonglistDetail(id,picUrl){
+	    		this.$router.push({
+	    			path:'/songListDetail',
+	    			query:{
+	    				id:id,
+	    				picUrl:picUrl,
+	    			},
+	    		})
+	    	},
+	    	goPlayer(index){
+	    		this.$store.commit('setMusiclist',this.newSongs)
+
+	    		this.$router.push({
+	    			path:'/player',
+	    			query:{
+	    				index:index
+	    			}
+	    		})
+	    		
+	    	},
 	        goFM() {
 	            this._getFm().then(() => {
 	                this.$router.push({
@@ -142,7 +165,7 @@
 	                getFm().then((res) => {
 	                    if (res.data.code === 200) {
 	                        var data = res.data.data;
-	                        data = musicFormate(data);
+	                        data = fmFormate(data);
 
 	                        this.$store.commit('setMusiclist', data);
 	                        resolve();
@@ -150,11 +173,7 @@
 	                })
 	            })
 	        },
-	        // _refresh() {
-	        //     setTimeout(() => {
-	        //         this.$refs.scroll.refresh();
-	        //     }, 5000)
-	        // },
+	        
 	        goRankingList() {
 	            this.$router.push({
 	                path: '/rankingList'
@@ -205,7 +224,7 @@
 	        _getNewSongs() {
 	            getNewSongs().then((res) => {
 	                if (res.data.code === 200) {
-	                    this.newSongs = res.data.result
+	                    this.newSongs = newSongsFormate(res.data.result);
 	                }
 	            })
 	        },

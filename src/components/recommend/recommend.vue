@@ -1,20 +1,20 @@
 <template>
 	<div class="recommend">
 		<directer><span>每日推荐</span></directer>
-		<div class="button">
+		<div class="button"  @click='goPlayer(0)'>
 			<div class="icon">
 				<i class="fa fa-play-circle-o" ></i>
 			</div>
 			<div class="name">播放全部</div>
 		</div>
 		<div class="song-wrapper">
-			<div class="item" v-for ="item in recommendSongs">
+			<div class="item" v-for ="(item,index) in recommendSongs" @click='goPlayer(index,"singleLoop")'>
 				<div class="img">
-					<img v-lazy="item.album.picUrl" alt="" >
+					<img v-lazy="item.picUrl" alt="" >
 				</div>
 				<div class="detail">
 					<div class="name">{{item.name}}</div>
-					<div class="singer">{{item.artists[0].name}} - {{item.album.name}}</div>
+					<div class="singer">{{item.name}} - {{item.name}}</div>
 				</div>
 			</div>
 		</div>
@@ -26,6 +26,7 @@
 	import axios from 'axios';
 	import directer from '@/components/part/directer.vue'
 	import loading from '@/base/loading/loading.vue'
+	import {fmFormate} from 'common/js/musicFormate.js'
 	export default{
 		data(){
 			return{
@@ -41,10 +42,21 @@
 			this._getRecommendSongs()
 		},
 		methods:{
-			
+			goPlayer(index,singleLoop){
+	    		this.$store.commit('setMusiclist',this.recommendSongs)
+
+	    		this.$router.push({
+	    			path:'/player',
+	    			query:{
+	    				index:index,
+	    				singleLoop:singleLoop,
+	    			}
+	    		})
+	    		
+	    	},
 			_getRecommendSongs(){
 				getRecommendSongs().then((res)=>{
-					this.recommendSongs=res.data.recommend
+					this.recommendSongs=fmFormate(res.data.recommend)
 				})
 			},
 		}

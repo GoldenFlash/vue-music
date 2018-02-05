@@ -7,7 +7,9 @@ import recommend from '@/components/recommend/recommend.vue'
 import songsList from '@/components/songsList/songsList.vue'
 import rankingList from '@/components/rankingList/rankingList.vue'
 import personalFM from '@/components/personalFM/personalFM.vue'
-import player from '@/components/player/player.vue'
+import playerFm from '@/components/player/player-fm.vue'
+import player from '@/components/player/player-music.vue'
+import songListDetail from '@/components/songsList/songListDetail.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -51,7 +53,17 @@ export default new Router({
     {
       path:'/personalFM',
       name:'personalFM',
-      component:player
+      component:playerFm
     },
+    {
+      path:'/player',
+      name:'player',
+      component:player,
+    },
+    {
+      path:'/songListDetail',
+      name:'songListDetail',
+      component:songListDetail,
+    }
   ]
 })
