@@ -10,7 +10,7 @@
 		<span class="icon-contact" @click="login">
 			<i class="fa fa-qq"></i>
 		</span>
-		<span class="icon-search">
+		<span class="icon-search" @click="search">
 			<i class="fa fa-search"></i>
 		</span>
 	</div>
@@ -24,6 +24,11 @@ import axios from 'axios';
 	        }
 	    },
 	    methods:{
+	    	search(){
+	    		this.$router.push({
+	    			path:'/search',
+	    		})
+	    	},
 	    	login(){
 	    		axios.get('/login/cellphone?phone=18655483280&password=wangwei531221571').then((res)=>{
 	    			console.log('登录成功')

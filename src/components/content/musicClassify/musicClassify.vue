@@ -31,7 +31,7 @@
 					</div>
 				</div>
 				<div class="recommend">
-					<div class="title" @click="goRecommend">
+					<div class="title" @click="goSongsList">
 						<span>推荐歌单</span>
 						<i class="fa fa-angle-right"></i>
 					</div>
@@ -137,18 +137,20 @@
 	    			},
 	    		})
 	    	},
-	    	goPlayer(index){
+	    	goPlayer(index,loop){
 	    		this.$store.commit('setMusiclist',this.newSongs)
+	    		this.$store.commit('setIndex', index);
+	    		if(loop){
+	    			this.$store.commit('setPlayWay', loop);
+	    		}
 
 	    		this.$router.push({
 	    			path:'/player',
-	    			query:{
-	    				index:index
-	    			}
+	    			
 	    		})
 	    		
-	    	},
-	        goFM() {
+	    	},	        
+	    	goFM() {
 	            this._getFm().then(() => {
 	                this.$router.push({
 	                    path: '/personalFM',
@@ -293,7 +295,7 @@
 	            padding: 1px;
 	            .description {
 	                width: 3.6rem;
-	                font-size: $font-size-small;
+	                font-size:0.5rem;
 	                margin-top: 0.1rem;
 	                margin-left: 0.1rem;
 	                white-space: nowrap;
@@ -331,7 +333,8 @@
 	                }
 	                .singer {
 	                    margin-top: 0.3rem;
-	                    font-size: 0.5rem
+	                    font-size: 0.5rem;
+	                    color:#666;
 	                }
 	            }
 	        }

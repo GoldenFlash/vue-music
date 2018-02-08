@@ -44,10 +44,11 @@
 	    listDetailFormate
 	} from 'common/js/musicFormate.js'
 	import directer from '@/components/part/directer.vue';
+	import {rankingDetailFormate} from 'common/js/musicFormate.js'
 	export default {
 	    data() {
 	        return {
-	            listId: '',
+	            
 	            listPicUrl: '',
 	            listName: '',
 	            songList: [],
@@ -56,6 +57,7 @@
 	    components: {
 	        directer,
 	    },
+
 	    methods: {
 	    	goPlayer(index,loop){
 	    		this.$store.commit('setMusiclist',this.songList)
@@ -70,23 +72,21 @@
 	    		})
 	    		
 	    	},
-	        getsongListDetail() {
-	            axios.get('/playlist/detail', {
-	                params: {
-	                    id: this.listId
-	                }
-	            }).then((res) => {
-	               
-	                this.songList = listDetailFormate(res.data.playlist.tracks);
-	                this.listName = res.data.playlist.name;
-	                
-	            })
-	        }
+	       getRankinglist(){
+				axios.get('/top/list',{params:{idx:this.idx, }}).then((res)=>{
+					
+	        		this.listPicUrl = res.data.playlist.coverImgUrl;
+	        		this.listName = res.data.playlist.name;
+					let list =rankingDetailFormate(res.data.playlist.tracks);
+					
+					this.songList = list
+					
+				})
+			}
 	    },
 	    mounted() {
-	        this.listId = this.$route.query.id;
-	        this.listPicUrl = this.$route.query.picUrl;
-	        this.getsongListDetail();
+	        this.idx = this.$route.query.idx;
+	        this.getRankinglist();
 	    },
 	}
 </script>

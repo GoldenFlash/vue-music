@@ -43,4 +43,36 @@ var listDetailFormate =function(data){
 	});
 	return musicArry
 }
-export{fmFormate,newSongsFormate,listDetailFormate}
+var rankingDetailFormate =function(data){
+	var musicArry=[];
+	data.forEach((item)=>{
+		
+		var o = {
+			name:item.name,
+			id:item.id,
+			singer:item.ar[0].name,
+			singerId:item.ar[0].id,
+			picUrl:item.al.picUrl,
+			albumName:item.al.name,
+		};
+		musicArry.push(o)
+	});
+	return musicArry
+}
+var searchResultFormate =function(data){
+	var musicArry=[];
+	data.forEach((item)=>{
+		
+		var o = {
+			name:item.name,
+			id:item.id,
+			singer:item.artists[0].name,
+			singerId:item.artists[0].id,
+			// picUrl:item.al.picUrl,
+			albumName:item.album.name,
+		};
+		musicArry.push(o)
+	});
+	return musicArry
+}
+export{fmFormate,newSongsFormate,listDetailFormate,rankingDetailFormate,searchResultFormate}

@@ -1,7 +1,7 @@
 <template>
 	<div class="recommend">
 		<directer><span>每日推荐</span></directer>
-		<div class="button"  @click='goPlayer(0)'>
+		<div class="button"  @click='goPlayer(0,"loop")'>
 			<div class="icon">
 				<i class="fa fa-play-circle-o" ></i>
 			</div>
@@ -42,15 +42,16 @@
 			this._getRecommendSongs()
 		},
 		methods:{
-			goPlayer(index,singleLoop){
+			goPlayer(index,loop){
 	    		this.$store.commit('setMusiclist',this.recommendSongs)
+	    		this.$store.commit('setIndex', index);
+	    		if(loop){
+	    			this.$store.commit('setPlayWay', loop);
+	    		}
 
 	    		this.$router.push({
 	    			path:'/player',
-	    			query:{
-	    				index:index,
-	    				singleLoop:singleLoop,
-	    			}
+	    			
 	    		})
 	    		
 	    	},
