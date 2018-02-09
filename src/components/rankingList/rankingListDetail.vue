@@ -21,19 +21,22 @@
 				</div>
 			</div>
 			<div class="songs">
-				<ul>
-					<li class="item" v-for="(item,index) in songList" @click='goPlayer(index,"singleLoop")'>
-						<div class="wrapper">
-							<div class="name">{{item.name}}</div>
-							<div class="singer">
-								{{item.singer}} - {{item.albumName}}
+				<scroll ref="scroll" :data="songList">
+					<ul>
+						<li class="item" v-for="(item,index) in songList" @click='goPlayer(index,"singleLoop")'>
+							<div class="wrapper">
+								<div class="name">{{item.name}}</div>
+								<div class="singer" @load="loadImage">
+									{{item.singer}} - {{item.albumName}}
+								</div>
 							</div>
-						</div>
-						<div class="menu">
-							<i class="fa fa-list" aria-hidden="true"></i>
-						</div>
-					</li>
-				</ul>
+							<div class="menu">
+								<i class="fa fa-list" aria-hidden="true"></i>
+							</div>
+						</li>
+					</ul>
+				</scroll>
+				
 			</div>
 		</div>
 	</div>
@@ -45,6 +48,7 @@
 	} from 'common/js/musicFormate.js'
 	import directer from '@/components/part/directer.vue';
 	import {rankingDetailFormate} from 'common/js/musicFormate.js'
+	import scroll from "@/base/scroll/scroll2.vue"
 	export default {
 	    data() {
 	        return {
@@ -56,9 +60,13 @@
 	    },
 	    components: {
 	        directer,
+	        scroll
 	    },
 
 	    methods: {
+	    	loadImage() {
+	            this.$refs.scroll.refresh()
+	        },
 	    	goPlayer(index,loop){
 	    		this.$store.commit('setMusiclist',this.songList)
 	    		this.$store.commit('setIndex', index);
@@ -131,6 +139,8 @@
 	            }
 	        }
 	        .songs {
+	        	height:62vh;
+	        	overflow:hidden;
 	            .item {
 	                margin: 0.5rem 0.4rem;
 	                border-bottom: solid #e6e8e9 1px;

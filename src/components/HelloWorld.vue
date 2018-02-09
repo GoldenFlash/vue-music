@@ -1,5 +1,7 @@
 <template>
-  <scroll>
+  <div>
+    <button>click</button>
+    <scroll>
     <div class="hello">
       1231231231211111111111111111111111111111111111111111111111111111111111111
       111111111
@@ -17,9 +19,10 @@
       
     </div>
   </scroll>
+  </div>
 </template>
 <script>
-  import scroll from 'base/scroll/scroll.vue';
+  import scroll from 'base/scroll/scroll2.vue';
   export default {
       name: 'HelloWorld',
       data() {

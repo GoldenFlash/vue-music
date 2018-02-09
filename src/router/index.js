@@ -12,6 +12,7 @@ import player from '@/components/player/player-music.vue'
 import songListDetail from '@/components/songsList/songListDetail.vue'
 import rankingListDetail from '@/components/rankingList/rankingListDetail.vue'
 import search from '@/components/search/search.vue'
+import scroll from '@/components/scroll/scroll.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -76,6 +77,11 @@ export default new Router({
       path:'/search',
       name:'search',
       component:search,
+    },
+    {
+      path:'/scroll',
+      name:'scroll',
+      component:scroll,
     }
   ]
 })

@@ -1,11 +1,11 @@
 <template>
-	<div>
-		<scroll :data="refresh" ref="scroll">
+	<div class="wrapper">
+		<scroll :data="newSongs" ref="scroll">
 			<div>
 				<div class="slider-wrapper">
 					<slider v-if="banners.length">
 						<div v-for="item in banners">
-							<img :src="item.pic">
+							<img :src="item.pic" @load="loadImage">
 						</div>
 					</slider>
 				</div>
@@ -37,7 +37,7 @@
 					</div>
 					<div class="recommend-content" v-show="recommendSongList.length">
 						<div class="item" v-for="item in recommendSongList" @click="goSonglistDetail(item.id,item.picUrl)">
-							<img v-lazy="item.picUrl">
+							<img v-lazy="item.picUrl" @load="loadImage">
 							<div class="description">{{item.name}}</div>
 						</div>
 					</div>
@@ -90,9 +90,10 @@
 	    getFm
 	} from 'api/getFm.js'
 	import {
-	    fmFormate,newSongsFormate
+	    fmFormate,
+	    newSongsFormate
 	} from 'common/js/musicFormate.js'
-	
+
 
 	export default {
 	    data() {
@@ -101,7 +102,7 @@
 	            exclusivebroadcastSongList: [],
 	            banners: [],
 	            newSongs: [],
-	            refresh: [],
+	            
 	        }
 	    },
 	    components: {
@@ -111,11 +112,12 @@
 	    },
 
 	    mounted() {
+	    	
 	        this._getRecommendSongList();
 	        this._getexclusivebroadcastSongList();
 	        this._getBanner();
 	        this._getNewSongs();
-	        
+
 	    },
 	    computed: {
 	    	
@@ -128,34 +130,37 @@
 	        }
 	    },
 	    methods: {
-	    	goSonglistDetail(id,picUrl){
-	    		this.$router.push({
-	    			path:'/songListDetail',
-	    			query:{
-	    				id:id,
-	    				picUrl:picUrl,
-	    			},
-	    		})
-	    	},
-	    	goPlayer(index,loop){
-	    		this.$store.commit('setMusiclist',this.newSongs)
-	    		this.$store.commit('setIndex', index);
-	    		if(loop){
-	    			this.$store.commit('setPlayWay', loop);
-	    		}
+	    	loadImage() { 
+		          this.$refs.scroll.refresh()
+		    },
+	        goSonglistDetail(id, picUrl) {
+	            this.$router.push({
+	                path: '/songListDetail',
+	                query: {
+	                    id: id,
+	                    picUrl: picUrl,
+	                },
+	            })
+	        },
+	        goPlayer(index, loop) {
+	            this.$store.commit('setMusiclist', this.newSongs)
+	            this.$store.commit('setIndex', index);
+	            if (loop) {
+	                this.$store.commit('setPlayWay', loop);
+	            }
 
-	    		this.$router.push({
-	    			path:'/player',
-	    			
-	    		})
-	    		
-	    	},	        
-	    	goFM() {
+	            this.$router.push({
+	                path: '/player',
+
+	            })
+
+	        },
+	        goFM() {
 	            this._getFm().then(() => {
 	                this.$router.push({
 	                    path: '/personalFM',
-	                    query:{
-	                    	type:'fm'
+	                    query: {
+	                        type: 'fm'
 	                    }
 	                })
 
@@ -175,7 +180,7 @@
 	                })
 	            })
 	        },
-	        
+
 	        goRankingList() {
 	            this.$router.push({
 	                path: '/rankingList'
@@ -237,115 +242,119 @@
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
 	@import '../../../common/style/variable.scss';
-	.loading {
-	    position: absolute;
-	}
-	.slider-wrapper {
-	    width: 100%;
-	    text-align: center
-	}
-	.musicClassify {
-	    display: flex;
-	    border-bottom: solid 1px #e6e8e9;
-	    text-align: center;
-	    margin: 0.3rem 0.3rem 0.5rem 0.3rem;
-	    padding: 0.3rem;
-	    .item {
+	.wrapper {
+		height:85vh;
+		// overflow:hidden;
+	    .loading {
+	        position: absolute;
+	    }
+	    .slider-wrapper {
+	        width: 100%;
+	        text-align: center
+	    }
+	    .musicClassify {
+	        display: flex;
+	        border-bottom: solid 1px #e6e8e9;
+	        text-align: center;
+	        margin: 0.3rem 0.3rem 0.5rem 0.3rem;
+	        padding: 0.3rem;
+	        .item {
 
-	        flex: 1;
-	        height: 2rem;
-	        &>i, &>span {
-	            display: block
-	        }
-	        &>i {
-	            color: rgb(211, 58, 49);
-	            font-size: 1rem; // font-weight: 10;
-	            margin-bottom: 0.2rem;
-	        }
-	        .songlist {
-	            font-size: 0;
-	            .fa-align-left {
-	                font-size: 1rem;
-	                transform: rotateY(180deg) rotateZ(180deg);
+	            flex: 1;
+	            height: 2rem;
+	            &>i, &>span {
+	                display: block
 	            }
-	            span {
-	                font-size: 1rem;
+	            &>i {
+	                color: rgb(211, 58, 49);
+	                font-size: 1rem; // font-weight: 10;
+	                margin-bottom: 0.2rem;
 	            }
-	        }
-	    }
-	}
-	.recommend {
-	    .title {
-	        margin-left: 0.2rem;
-	        &>span {
-	            font-size: 0.6rem
-	        }
-	        .fa-angle-right {
-	            font-size: 0.8rem
-	        }
-	    }
-	    .recommend-content {
-	        margin-top: 0.2rem;
-	        margin-left: 0.1rem;
-	        .item {
-	            box-sizing: border-box;
-	            display: inline-block;
-	            width: 33%;
-	            height: 5.1rem; // background-color: yellow;
-	            padding: 1px;
-	            .description {
-	                width: 3.6rem;
-	                font-size:0.5rem;
-	                margin-top: 0.1rem;
-	                margin-left: 0.1rem;
-	                white-space: nowrap;
-	                overflow: hidden;
-	                text-overflow: ellipsis;
-	                color: #666;
+	            .songlist {
+	                font-size: 0;
+	                .fa-align-left {
+	                    font-size: 1rem;
+	                    transform: rotateY(180deg) rotateZ(180deg);
+	                }
+	                span {
+	                    font-size: 1rem;
+	                }
 	            }
 	        }
 	    }
-	}
-	.newSongs {
-	    .title {
-	        margin-left: 0.2rem;
-	        &>span {
-	            font-size: 0.6rem
+	    .recommend {
+	        .title {
+	            margin-left: 0.2rem;
+	            &>span {
+	                font-size: 0.6rem
+	            }
+	            .fa-angle-right {
+	                font-size: 0.8rem
+	            }
 	        }
-	        .fa-angle-right {
-	            font-size: 0.8rem
-	        }
-	    }
-	    .newSongs-wrapper {
-	        margin-top: 0.2rem;
-	        margin-left: 0.2rem;
-	        .item {
-	            padding: 0.4rem 0;
-	            border-bottom: solid #e6e8e9 1px;
-	            .songs-info {
+	        .recommend-content {
+	            margin-top: 0.2rem;
+	            margin-left: 0.1rem;
+	            .item {
+	                box-sizing: border-box;
 	                display: inline-block;
-	                width: 70%;
-	                white-space: nowrap;
-	                overflow: hidden;
-	                text-overflow: ellipsis;
-	                .name {
-	                    font-size: 0.6rem;
-	                }
-	                .singer {
-	                    margin-top: 0.3rem;
+	                width: 33%;
+	                height: 5.1rem; // background-color: yellow;
+	                padding: 1px;
+	                .description {
+	                    width: 3.6rem;
 	                    font-size: 0.5rem;
-	                    color:#666;
+	                    margin-top: 0.1rem;
+	                    margin-left: 0.1rem;
+	                    white-space: nowrap;
+	                    overflow: hidden;
+	                    text-overflow: ellipsis;
+	                    color: #666;
 	                }
 	            }
 	        }
-	        .icon-play {
-	            // width:10px;
-	            display: inline-block;
-	            font-size: 0.8rem;
-	            margin-left: 1.6rem;
-	            vertical-align: top;
-	            margin-top: 0.3rem;
-	            color: #AAAAAA;
+	    }
+	    .newSongs {
+	        .title {
+	            margin-left: 0.2rem;
+	            &>span {
+	                font-size: 0.6rem
+	            }
+	            .fa-angle-right {
+	                font-size: 0.8rem
+	            }
+	        }
+	        .newSongs-wrapper {
+	            margin-top: 0.2rem;
+	            margin-left: 0.2rem;
+	            .item {
+	                padding: 0.4rem 0;
+	                border-bottom: solid #e6e8e9 1px;
+	                .songs-info {
+	                    display: inline-block;
+	                    width: 70%;
+	                    white-space: nowrap;
+	                    overflow: hidden;
+	                    text-overflow: ellipsis;
+	                    .name {
+	                        font-size: 0.6rem;
+	                    }
+	                    .singer {
+	                        margin-top: 0.3rem;
+	                        font-size: 0.5rem;
+	                        color: #666;
+	                    }
+	                }
+	            }
+	            .icon-play {
+	                // width:10px;
+	                display: inline-block;
+	                font-size: 0.8rem;
+	                margin-left: 1.6rem;
+	                vertical-align: top;
+	                margin-top: 0.3rem;
+	                color: #AAAAAA;
+	            }
 	        }
 	    }
 	}

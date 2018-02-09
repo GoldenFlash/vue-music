@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "better-scroll": "0.1.15",
+    "fastclick": "^1.0.6",
     "vue": "^2.5.2",
     "vue-lazy-load": "0.0.7",
     "vue-lazyload": "^1.1.4",
@@ -67,5 +68,15 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "main": ".postcssrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GoldenFlash/vue-music.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GoldenFlash/vue-music/issues"
+  },
+  "homepage": "https://github.com/GoldenFlash/vue-music#readme"
 }

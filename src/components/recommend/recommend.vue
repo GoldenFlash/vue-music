@@ -7,17 +7,24 @@
 			</div>
 			<div class="name">播放全部</div>
 		</div>
+		
 		<div class="song-wrapper">
-			<div class="item" v-for ="(item,index) in recommendSongs" @click='goPlayer(index,"singleLoop")'>
-				<div class="img">
-					<img v-lazy="item.picUrl" alt="" >
+			<scroll :data="recommendSongs" ref="scroll">
+				<div>
+					<div class="item" v-for ="(item,index) in recommendSongs" @click='goPlayer(index,"singleLoop")'>
+						<div class="img">
+							<img v-lazy="item.picUrl" alt="" @load="loadImage">
+						</div>
+						<div class="detail">
+							<div class="name">{{item.name}}</div>
+							<div class="singer">{{item.name}} - {{item.name}}</div>
+						</div>
+					</div>
 				</div>
-				<div class="detail">
-					<div class="name">{{item.name}}</div>
-					<div class="singer">{{item.name}} - {{item.name}}</div>
-				</div>
-			</div>
+			</scroll>
 		</div>
+		
+		
 		<loading v-show="!recommendSongs.length"></loading>
 	</div>
 </template>
@@ -27,6 +34,7 @@
 	import directer from '@/components/part/directer.vue'
 	import loading from '@/base/loading/loading.vue'
 	import {fmFormate} from 'common/js/musicFormate.js'
+	import scroll from 'base/scroll/scroll2.vue'
 	export default{
 		data(){
 			return{
@@ -35,13 +43,17 @@
 		},
 		components:{
 			directer,
-			loading
+			loading,
+			scroll
 		},
 		mounted(){
 			
 			this._getRecommendSongs()
 		},
 		methods:{
+			loadImage() { // 图片加载完成后，让scroll组件重新计算高度，由于图片高度都是一样的，所以仅需调用一次
+		          this.$refs.scroll.refresh()
+		      },
 			goPlayer(index,loop){
 	    		this.$store.commit('setMusiclist',this.recommendSongs)
 	    		this.$store.commit('setIndex', index);
@@ -66,7 +78,11 @@
 <style lang="scss" rel="stylesheet/scss" scoped>
 
 	.recommend{
-		
+		position:fixed;
+		top:0;
+		buttom:0;
+		left:0;
+		right:0;
 		
 		padding:0;
 		
@@ -83,7 +99,8 @@
 
 		}
 		.song-wrapper{
-
+			height:82vh;
+			// overflow:hidden;
 			.item{
 				padding:0.5rem;
 				margin:0.2rem;

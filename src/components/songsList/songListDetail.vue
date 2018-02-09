@@ -21,24 +21,28 @@
 				</div>
 			</div>
 			<div class="songs">
-				<ul>
-					<li class="item" v-for="(item,index) in songList" @click='goPlayer(index,"singleLoop")'>
-						<div class="wrapper">
-							<div class="name">{{item.name}}</div>
-							<div class="singer">
-								{{item.singer}} - {{item.albumName}}
+				<scroll ref="scroll" :data="songList">
+					<ul>
+						<li class="item" v-for="(item,index) in songList" @click='goPlayer(index,"singleLoop")'>
+							<div class="wrapper">
+								<div class="name">{{item.name}}</div>
+								<div class="singer">
+									{{item.singer}} - {{item.albumName}}
+								</div>
 							</div>
-						</div>
-						<div class="menu">
-							<i class="fa fa-list" aria-hidden="true"></i>
-						</div>
-					</li>
-				</ul>
+							<div class="menu">
+								<i class="fa fa-list" aria-hidden="true"></i>
+							</div>
+						</li>
+					</ul>
+				</scroll>
+				
 			</div>
 		</div>
 	</div>
 </template>
 <script type="text/javascript">
+import scroll from "@/base/scroll/scroll2.vue"
 	import axios from 'axios'
 	import {
 	    listDetailFormate
@@ -55,8 +59,12 @@
 	    },
 	    components: {
 	        directer,
+	        scroll
 	    },
 	    methods: {
+	    	loadImage() { 
+		          this.$refs.scroll.refresh()
+		     },
 	    	goPlayer(index,loop){
 	    		this.$store.commit('setMusiclist',this.songList)
 	    		this.$store.commit('setIndex', index);
@@ -92,6 +100,10 @@
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
 	.songList-wrapper {
+
+		postion:fixed;
+		top:0;
+		buttom:0;
 	    .listTheme {
 	        height: 4rem;
 	        background-color: rgba(5, 24, 40, 0.8);
@@ -131,6 +143,8 @@
 	            }
 	        }
 	        .songs {
+	        	height:62vh;
+	        	overflow:hidden;
 	            .item {
 	                margin: 0.5rem 0.4rem;
 	                border-bottom: solid #e6e8e9 1px;

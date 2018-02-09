@@ -1,5 +1,5 @@
 <template>
-  <div ref="wrapper">
+  <div ref="wrapper" class="wrapper">
     <slot></slot>
   </div>
 </template>
@@ -47,11 +47,13 @@
       _initScroll() {
         if (!this.$refs.wrapper) {    // 确保dom已经就绪
           return
+        }else{
+            this.scroll = new BScroll(this.$refs.wrapper, {   // 在mounted时初始化一个better-scroll对象
+            probeType: this.probeType,
+            click: this.click
+          })
         }
-        this.scroll = new BScroll(this.$refs.wrapper, {   // 在mounted时初始化一个better-scroll对象
-          probeType: this.probeType,
-          click: this.click
-        })
+        
 
         if (this.listenScroll) {      // 如果有监听就触发一个事件并把相关参数传出去
           let me = this
@@ -80,7 +82,8 @@
       enable() {      // 允许滚动
         this.scroll && this.scroll.enable()
       },
-      refresh() {     // 刷新
+      refresh() { 
+      console.log(1)    // 刷新
         this.scroll && this.scroll.refresh()
       },
       scrollTo() {    // 滚动到固定位置
@@ -94,9 +97,15 @@
       data() {  // 监控容器内部高度变化
         setTimeout(() => {
           this.scroll.refresh();
+          console.log("refresh")
         }, this.refreshDelay)
       }
     }
   }
 </script>
-
+<style lang="scss" rel="stylesheet/scss" scoped>
+  .wrapper{
+    height:100%;
+    overflow:hidden;
+  }
+</style>
