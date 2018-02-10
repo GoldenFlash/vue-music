@@ -1,25 +1,27 @@
 <template>
 	<div class="musicDetail" @click="hiddenMuiscDetail">
 		<div class="wrapper" @click.stop>
-			<div class="title">
-				<div class="playMethod">
-					<span>{{playMethods}}</span>
-					<span>({{musiclist.length}})</span>
+			<scroll ref="scroll">
+				<div>
+					<div class="title">
+						<div class="playMethod">
+							<span>{{playMethods}}</span>
+							<span>({{musiclist.length}})</span>
+						</div>
+						<div class="delete"></div>
+					</div>
+					<div class="content">
+						<ul class="item-wrapper">
+							<li class="item" v-for="(item,i) in musiclist" :class='{"active":index===i}' @click="playItem(i)">
+								<span class="songs" @load="loadImage">{{item.name}} - {{item.singer}}</span>
+								<span class="deleteSelf" @click.stop="deleteSongs(i)">
+									<i class="fa fa-trash-o" aria-hidden="true"></i>
+								</span>
+							</li>
+						</ul>
+					</div>
 				</div>
-				<div class="delete"></div>
-			</div>
-			<div class="content">
-				<scroll ref="scroll">
-					<ul class="item-wrapper">
-						<li class="item" v-for="(item,i) in musiclist" :class='{"active":index===i}' @click="playItem(i)">
-							<span class="songs" @load="loadImage">{{item.name}} - {{item.singer}}</span>
-							<span class="deleteSelf" @click.stop="deleteSongs(i)">
-								<i class="fa fa-trash-o" aria-hidden="true"></i>
-							</span>
-						</li>
-					</ul>
-				</scroll>
-			</div>
+			</scroll>
 		</div>
 	</div>
 </template>
@@ -63,7 +65,11 @@
 	        }
 	    },
 	    mounted() {
-
+	    	this.$nextTick(()=>{
+	    		setTimeout(()=>{
+	    			this.loadImage()
+	    		},1000)
+	    	})
 	    }
 	}
 </script>
@@ -80,14 +86,15 @@
 	        background-color: #fff;
 	        width: 100%;
 	        height: 10rem;
+	        overflow: hidden;
 
 	        .title {
 	            padding: 0.3rem 0.2rem;
 	            border-bottom: solid #e6e8e9 1px
 	        }
 	        .content {
-	            height: 100%;
-	            overflow: hidden;
+	            // height: 45vh;
+	            // overflow: hidden;
 	            .item-wrapper {
 
 	                .item {

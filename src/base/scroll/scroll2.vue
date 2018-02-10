@@ -83,7 +83,7 @@
         this.scroll && this.scroll.enable()
       },
       refresh() { 
-      console.log(1)    // 刷新
+         // 刷新
         this.scroll && this.scroll.refresh()
       },
       scrollTo() {    // 滚动到固定位置
@@ -97,7 +97,7 @@
       data() {  // 监控容器内部高度变化
         setTimeout(() => {
           this.scroll.refresh();
-          console.log("refresh")
+          
         }, this.refreshDelay)
       }
     }
