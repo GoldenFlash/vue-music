@@ -4,8 +4,8 @@
 		<div class="onlineMusic-options">
 			<span @click="goMusicClassify" :class="{'current':current==='MusicClassify'}
 ">音乐</span>
-			<span @click="goMusicVideo" :class="{'current':current==='MusicVideo'}">视频</span>
 			<span @click="goMusicRadio" :class="{'current':current==='MusicRadio'}">电台</span>
+			<span  @click="search">搜索</span>
 		</div>
 		<keep-alive>
 			<!-- 利用缓存 -->
@@ -31,6 +31,11 @@
 	        vFooter
 	    },
 	    methods: {
+	    	search(){
+	    		this.$router.push({
+	    			path:'/search',
+	    		})
+	    	},
 	        goMusicClassify() {
 	            this.$router.push('/index/musicClassify');
 	            this.current = 'MusicClassify';
