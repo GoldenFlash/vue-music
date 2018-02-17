@@ -41,6 +41,7 @@
 				recommendSongs:[],
 			}
 		},
+		
 		components:{
 			directer,
 			loading,
@@ -51,6 +52,11 @@
 			this._getRecommendSongs()
 		},
 		methods:{
+			clearTimer() {
+		        clearInterval(this.timer);
+		        clearInterval(this.setCurrentTime);
+		        clearInterval(this.lyricTimer);
+		    },
 			loadImage() { // 图片加载完成后，让scroll组件重新计算高度，由于图片高度都是一样的，所以仅需调用一次
 		          this.$refs.scroll.refresh()
 		      },
@@ -60,11 +66,11 @@
 	    		if(loop){
 	    			this.$store.commit('setPlayWay', loop);
 	    		}
-
-	    		this.$router.push({
-	    			path:'/player',
-	    			
-	    		})
+	    		
+	    		this.$store.commit("setShowPlayer",false)
+	    		setTimeout(()=>{
+	    			this.$store.commit("setShowPlayer",true)
+	    		},100)
 	    		
 	    	},
 			_getRecommendSongs(){

@@ -16,11 +16,7 @@ import axios from 'axios';
 	        }
 	    },
 	    methods:{
-	    	search(){
-	    		this.$router.push({
-	    			path:'/search',
-	    		})
-	    	},
+	    	
 	    	login(){
 	    		axios.get('/login/cellphone?phone=18655483280&password=wangwei531221571').then((res)=>{
 	    			console.log('登录成功')

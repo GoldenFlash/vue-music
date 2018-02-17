@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="rankingList" @click="goRankingListDetail">
-			<div class="wrapper">
+			<div class="ranking-wrapper">
 				<div class="img">
 					<slot></slot>
 				</div>
@@ -56,7 +56,7 @@
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
 	.rankingList{
-		.wrapper{
+		.ranking-wrapper{
 			.img{
 				display:inline-block;
 				vertical-align:top;

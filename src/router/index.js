@@ -13,6 +13,7 @@ import songListDetail from '@/components/songsList/songListDetail.vue'
 import rankingListDetail from '@/components/rankingList/rankingListDetail.vue'
 import search from '@/components/search/search.vue'
 import scroll from '@/components/scroll/scroll.vue'
+import radio from '@/components/radio/radio.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -33,10 +34,16 @@ export default new Router({
       },
       name: 'index',
       component: index,
-      children: [{
-        path: 'musicClassify',
-        component: musicClassify
-      }]
+      children: [
+        {
+          path: 'musicClassify',
+          component: musicClassify
+        },
+        {
+          path: 'radio',
+          component: radio
+        }
+      ]
     },
     {
       path: '/recommend',

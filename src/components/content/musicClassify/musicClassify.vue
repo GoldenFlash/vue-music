@@ -149,14 +149,15 @@
 	                this.$store.commit('setPlayWay', loop);
 	            }
 
-	            this.$router.push({
-	                path: '/player',
-
-	            })
+	            this.$store.commit("setShowPlayer",false)
+	    		setTimeout(()=>{
+	    			this.$store.commit("setShowPlayer",true)
+	    		},100)
 
 	        },
 	        goFM() {
 	            this._getFm().then(() => {
+	            	this.$store.commit("setShowPlayer",false)
 	                this.$router.push({
 	                    path: '/personalFM',
 	                    query: {
@@ -244,7 +245,7 @@
 	@import '../../../common/style/variable.scss';
 	.wrapper {
 		height:85vh;
-		// overflow:hidden;
+		
 	    .loading {
 	        position: absolute;
 	    }
@@ -265,9 +266,12 @@
 	            &>i, &>span {
 	                display: block
 	            }
+	            &>span{
+	            	font-size:0.5rem;
+	            }
 	            &>i {
 	                color: rgb(211, 58, 49);
-	                font-size: 1rem; // font-weight: 10;
+	                font-size: 1rem; 
 	                margin-bottom: 0.2rem;
 	            }
 	            .songlist {
@@ -299,7 +303,7 @@
 	                box-sizing: border-box;
 	                display: inline-block;
 	                width: 33%;
-	                height: 5.1rem; // background-color: yellow;
+	                height: 5.1rem;
 	                padding: 1px;
 	                .description {
 	                    width: 3.6rem;
@@ -328,7 +332,8 @@
 	            margin-top: 0.2rem;
 	            margin-left: 0.2rem;
 	            .item {
-	                padding: 0.4rem 0;
+	                padding: 0.5rem 0;
+
 	                border-bottom: solid #e6e8e9 1px;
 	                .songs-info {
 	                    display: inline-block;
@@ -338,6 +343,7 @@
 	                    text-overflow: ellipsis;
 	                    .name {
 	                        font-size: 0.6rem;
+
 	                    }
 	                    .singer {
 	                        margin-top: 0.3rem;
@@ -347,10 +353,11 @@
 	                }
 	            }
 	            .icon-play {
-	                // width:10px;
+	              
 	                display: inline-block;
 	                font-size: 0.8rem;
-	                margin-left: 1.6rem;
+	                float:right;
+	                margin-right: 0.6rem;
 	                vertical-align: top;
 	                margin-top: 0.3rem;
 	                color: #AAAAAA;

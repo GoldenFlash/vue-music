@@ -2,9 +2,9 @@
 	<div class="onlineMusic">
 		<v-header></v-header>
 		<div class="onlineMusic-options">
-			<span @click="goMusicClassify" :class="{'current':current==='MusicClassify'}
+			<span @click="goMusicClassify" :class="{'current':musicOptions==='MusicClassify'}
 ">音乐</span>
-			<span @click="goMusicRadio" :class="{'current':current==='MusicRadio'}">电台</span>
+			<span @click="goRadio" :class="{'current':musicOptions==='MusicRadio'}">电台</span>
 			<span  @click="search">搜索</span>
 		</div>
 		<keep-alive>
@@ -22,13 +22,18 @@
 	export default {
 	    data() {
 	        return {
-	            current: 'MusicClassify',
+	           
 	        }
 	    },
 	    components: {
 	        scroll,
 	        vHeader,
 	        vFooter
+	    },
+	    computed:{
+	    	musicOptions(){
+	    		return this.$store.state.musicOptions;
+	    	}
 	    },
 	    methods: {
 	    	search(){
@@ -38,15 +43,13 @@
 	    	},
 	        goMusicClassify() {
 	            this.$router.push('/index/musicClassify');
-	            this.current = 'MusicClassify';
+	            this.$store.commit("setMusicOptions",'MusicClassify')
 	        },
-	        goMusicVideo() {
-	            this.$router.push('/index/musicClassify');
-	            this.current = 'MusicVideo';
-	        },
-	        goMusicRadio() {
-	            this.$router.push('/index/musicClassify');
-	            this.current = 'MusicRadio';
+	       
+	        goRadio() {
+	            this.$router.push('/index/radio');
+	             this.$store.commit("setMusicOptions",'MusicRadio')
+	            
 	        },
 	    },
 	    mounted() {

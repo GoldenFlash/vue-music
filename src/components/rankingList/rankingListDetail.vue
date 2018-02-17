@@ -74,10 +74,10 @@
 	    			this.$store.commit('setPlayWay', loop);
 	    		}
 
-	    		this.$router.push({
-	    			path:'/player',
-	    			
-	    		})
+	    		this.$store.commit("setShowPlayer",false)
+	    		setTimeout(()=>{
+	    			this.$store.commit("setShowPlayer",true)
+	    		},100)
 	    		
 	    	},
 	       getRankinglist(){

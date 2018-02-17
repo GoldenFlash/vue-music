@@ -1,100 +1,144 @@
 <template>
-	<div class="player-wrapper">
+	<div>
 		<audio :src="songUrl" ref='audio' @ended="songEnd"></audio>
-		<div class="title">
-			<div class="icongo" @click="goHistory">
-				<i class="fa fa-arrow-left" aria-hidden="true"></i>
-			</div>
-			<div class="detail">
-				<div class="songName">{{song.name}}</div>
-				<div class="singerName">{{song.singer}}</div>
+		<div id="player" v-show="player">
+			<div class="player-wrapper" >
+				<div class="title">
+					<div class="icongo" @click="goHistory">
+						<i class="fa fa-arrow-left" aria-hidden="true"></i>
+					</div>
+					<div class="detail">
+						<div class="songName">{{song.name}}</div>
+						<div class="singerName">{{song.singer}}</div>
+					</div>
+				</div>
+				<div class="content" @click="_showLyric">
+					<div class="content-wrapper" v-show="!showLyric">
+						<div class="img">
+							<img :src="song.picUrl" alt="">
+						</div>
+						<div class="personal-function">
+							<div class="icon">
+								<div class="like">
+									<i class="fa fa-heart-o" aria-hidden="true"></i>
+								</div>
+								<div class="download">
+									<i class="fa fa-download" aria-hidden="true"></i>
+								</div>
+								<div class="comment">
+									<i class="fa fa-commenting-o" aria-hidden="true"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="lyric-wrapper" v-show="showLyric">
+						<div class="voice">
+							<div class="icon">
+								<i class="fa fa-volume-up"></i>
+							</div>
+							<div class="bar" ref="voice" @touchstart="vtouchstart($event)" @touchmove="vtouchmove($event)" @click.stop>
+								<div class="bar-outer">
+									<div class="bar-inner"></div>
+								</div>
+							</div>
+						</div>
+						<div class="lyric" v-if="lyrics.length">
+							<div v-if='typeof(lyrics)==="object"'>
+								<ul ref="lyric" class="item-wrapper">
+									<li v-for="(value,index) in lyrics" :data-time="value.time" :class='[{"active":currentLyricIndex===index},"item"]'>
+										{{value.text}}
+									</li>
+								</ul>
+							</div>
+							<div v-show='typeof(lyrics)==="string"' class="item-wrapper">
+								<div class="nolyric">
+									{{lyrics}}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="player-control">
+					<div class="process" ref="progress">
+						<div class="time-wrapper">
+							<span class="time" v-show="currentTime">{{currentTime}}</span>
+						</div>
+						<div class="process-wrapper" @touchstart="ptouchstart($event)" @touchend="ptouchend($event)" @touchmove="ptouchmove($event)">
+							<div class="process-outer" ref="process">
+								<div class="process-inner"></div>
+							</div>
+						</div>
+						<div class="time-wrapper">
+							<span class="time" v-show="duration">{{duration}}</span>
+						</div>
+					</div>
+					<div class="control">
+						<div class="loop">
+							<i :class='[{"fa-random":playWay==="random", "fa-repeat":playWay==="loop", "fa-superpowers":playWay==="singleLoop"}, "fa"]' @click.stop="changePlayWay">
+							</i>
+						</div>
+						<div class="previous" @click="previous">
+							<i class="fa fa-step-backward" aria-hidden="true"></i>
+						</div>
+						<div class="play" @click="play">
+							<i :class="[playState?'fa-pause-circle-o':'fa-play-circle-o','fa']" aria-hidden="true"></i>
+						</div>
+						<div class="next" @click="next">
+							<i class="fa fa-step-forward" aria-hidden="true"></i>
+						</div>
+						<div class="list" @click="showMusicDetail">
+							<i class="fa fa-sliders" aria-hidden="true"></i>
+						</div>
+					</div>
+				</div>
+				
 			</div>
 		</div>
-		<div class="content" @click="_showLyric">
-			<div class="content-wrapper" v-show="!showLyric">
-				<div class="img">
-					<img :src="song.picUrl" alt="">
-				</div>
-				<div class="personal-function">
-					<div class="icon">
-						<div class="like">
-							<i class="fa fa-heart-o" aria-hidden="true"></i>
+		<div id="player-mini" v-show="playerMini" @click="_showPlayer">
+			<div class="player-wrapper">
+				<audio :src="songUrl" ref='audio' @ended="songEnd"></audio>
+				<div class="wrapper">
+					<div class="img">
+						<img :src="song.picUrl" alt="">
+					</div>
+					<div class="detail">
+						<div class="name">
+							{{song.name}}
 						</div>
-						<div class="download">
-							<i class="fa fa-download" aria-hidden="true"></i>
-						</div>
-						<div class="comment">
-							<i class="fa fa-commenting-o" aria-hidden="true"></i>
+						<div class="singer">
+							{{song.singer}}
 						</div>
 					</div>
-				</div>
-			</div>
-			<div class="lyric-wrapper" v-show="showLyric">
-				<div class="voice">
-					<div class="icon">
-						<i class="fa fa-volume-up"></i>
-					</div>
-					<div class="bar" ref="voice" @touchstart="vtouchstart($event)" @touchmove="vtouchmove($event)" @click.stop>
-						<div class="bar-outer">
-							<div class="bar-inner"></div>
+					<div class="player-control">
+						<div class="control">
+							<div class="previous" @click.stop="previous">
+								<i class="fa fa-step-backward" aria-hidden="true"></i>
+							</div>
+							<div class="play" @click.stop="play">
+								<i :class="[playState?'fa-pause-circle-o':'fa-play-circle-o','fa']" aria-hidden="true"></i>
+							</div>
+							<div class="next" @click.stop="next">
+								<i class="fa fa-step-forward" aria-hidden="true"></i>
+							</div>
+							
+						</div>
+						<div class="musicDetail" v-show="musicDetail">
+							<musicDetail :musiclist="musiclist" :index="index" :playWay="playWay" @showMusicDetail="showMusicDetail" @emitIndex="emitIndex($event)"></musicDetail>
 						</div>
 					</div>
-				</div>
-				<div class="lyric" v-if="lyrics.length">
-					<div v-if='typeof(lyrics)==="object"'>
-						<ul ref="lyric" class="item-wrapper">
-							<li v-for="(value,index) in lyrics" :data-time="value.time" :class='[{"active":currentLyricIndex===index},"item"]'>
-								{{value.text}}
-							</li>
-						</ul>
-					</div>
-					<div v-show='typeof(lyrics)==="string"' class="item-wrapper">
-						<div class="nolyric">
-							{{lyrics}}
-						</div>
+					<div class="menu" @click.stop="showMusicDetail">
+						<i class="fa fa-list" aria-hidden="true"></i>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="player-control">
-			<div class="process" ref="progress">
-				<div class="time-wrapper">
-					<span class="time" v-show="currentTime">{{currentTime}}</span>
-				</div>
-				<div class="process-wrapper" @touchstart="ptouchstart($event)" @touchend="ptouchend($event)" @touchmove="ptouchmove($event)">
-					<div class="process-outer" ref="process">
-						<div class="process-inner"></div>
-					</div>
-				</div>
-				<div class="time-wrapper">
-					<span class="time" v-show="duration">{{duration}}</span>
-				</div>
-			</div>
-			<div class="control">
-				<div class="loop">
-					<i :class='[{"fa-random":playWay==="random", "fa-repeat":playWay==="loop", "fa-superpowers":playWay==="singleLoop"}, "fa"]' @click.stop="changePlayWay">
-					</i>
-				</div>
-				<div class="previous" @click="previous">
-					<i class="fa fa-step-backward" aria-hidden="true"></i>
-				</div>
-				<div class="play" @click="play">
-					<i :class="[playState?'fa-pause-circle-o':'fa-play-circle-o','fa']" aria-hidden="true"></i>
-				</div>
-				<div class="next" @click="next">
-					<i class="fa fa-step-forward" aria-hidden="true"></i>
-				</div>
-				<div class="list" @click="showMusicDetail">
-					<i class="fa fa-sliders" aria-hidden="true"></i>
-				</div>
-			</div>
-		</div>
-		<div class="musicDetail" v-show="musicDetail">
+		<div class="musicDetail" v-show="musicDetail" @click.stop>
 			<musicDetail :musiclist="musiclist" :index="index" :playWay="playWay" @showMusicDetail="showMusicDetail" @emitIndex="emitIndex($event)"></musicDetail>
 		</div>
 	</div>
 </template>
 <script type="text/javascript">
+	// import playerMini from '@/components/player/player-mini.vue'
 	import {
 	    mapState
 	} from 'vuex'
@@ -136,23 +180,34 @@
 	            songUrl: '',
 	            musiclistLength: 10,
 	            musicDetail: false,
-	            // playWay:"loop",
+	            playerMini: true,
+	            player: false,
 
 	        }
 	    },
 	    components: {
 	        musicDetail,
+
 	    },
 	    computed: {
 	        ...mapState({
 	            musiclist: 'musiclist',
 	            index: 'index',
 	            playWay: 'playWay',
+
 	            // currentTime:'currentTime',
 	        })
 	    },
 
 	    methods: {
+	        _showPlayerMini() {
+	            this.playerMini = !this.playerMini;
+	            this.player = !this.player;
+	        },
+	        _showPlayer() {
+	            this.playerMini = !this.playerMini;
+	            this.player = !this.player;
+	        },
 	        //子组件触发事件函数
 	        emitIndex(value) {
 	            this.$store.commit("setIndex", value)
@@ -219,8 +274,8 @@
 	                } else if (this.playWay === "singleLoop") {
 	                    this._singleLoop();
 	                }
-	            }else if(value==="next"){
-	            	this.loopPlay();
+	            } else if (value === "next") {
+	                this.loopPlay();
 	            }
 	        },
 
@@ -233,7 +288,7 @@
 	        },
 	        initvolume() {
 	            var barInner = this.$refs.voice.querySelector(".bar-outer .bar-inner")
-	            var volume = 0.3;
+	            var volume = 0.1;
 	            this.$refs.audio.volume = volume;
 
 	            barInner.style.width = volume * 100 + "%";
@@ -295,16 +350,21 @@
 	        },
 	        // 设置歌曲进度
 	        changeProgress() {
+	        	
 	            this.$nextTick(() => {
 	                if (this.$refs.audio) {
 	                    this.timer = setInterval(() => {
 	                        this.progress = (this.$refs.audio.currentTime) * 100 / this.originDuration;
+	                        
 	                        this.$refs.progress.querySelector('.process-outer .process-inner').style.width = this.progress + "%";
 
 	                    }, 200)
-	                    this.setCurrentTime = setInterval(() => {
-	                        this.currentTime = formateTime(this.$refs.audio.currentTime);
-	                    }, 980)
+
+	                    
+	                    	this.setCurrentTime = setInterval(() => {
+		                        this.currentTime = formateTime(this.$refs.audio.currentTime);
+		                    }, 980)
+	                    
 
 	                    setTimeout(() => {
 	                        this.duration = formateTime(this.$refs.audio.duration);
@@ -314,6 +374,7 @@
 	                };
 
 	            });
+	            
 	        },
 	        //控制歌词显隐藏
 	        _showLyric() {
@@ -340,15 +401,15 @@
 	        },
 	        //播放下一首
 	        next() {
-	           this.initMuiscPlay("next")
+	            this.initMuiscPlay("next")
 	        },
 	        //播放上一首
 	        previous() {
 	            this.$store.commit("setIndex", "decrease")
 	            this._getSong();
 	        },
-	        initMuiscPlay(value){
-	        	 if (this.musiclist.length) {
+	        initMuiscPlay(value) {
+	            if (this.musiclist.length) {
 	                if (this.index >= this.musiclist.length - 1) {
 	                    return
 	                }
@@ -358,7 +419,7 @@
 	                this.clearTimer();
 	                this.changeProgress();
 	                this._renderLyric();
-	               
+
 
 	            }
 	        },
@@ -426,7 +487,9 @@
 
 	                var nexT = lyricDom[i + 1].getAttribute("data-time");
 
-	                var curTime = this.$refs.audio.currentTime;
+	                if(this.$refs.audio.currentTime){
+	                	var curTime = this.$refs.audio.currentTime;
+	                }
 	                if ((curTime > curT) && (curT < nexT)) {
 	                    this.currentLyricIndex = i;
 
@@ -456,23 +519,11 @@
 
 	        },
 	        // 添加fm列表
-	        addFm() {
-
-	            if (this.index === this.musiclist.length - 1) {
-	                getFm().then((res) => {
-	                    if (res.data.code === 200) {
-	                        var data = res.data.data;
-	                        data = fmFormate(data);
-	                        this.$store.commit('addMusiclist', data);
-	                    }
-	                })
-	            }
-
-	        },
+	       
 	        //回到上一页
 	        goHistory() {
 	            this.clearTimer();
-	            this.$router.go(-1);
+	            this._showPlayerMini();
 	        },
 	        // 刷新跳转
 	        refresh() {
@@ -483,21 +534,20 @@
 	            }
 	        }
 	    },
+	    beforeDestroy(){
+	    	this.clearTimer();
+	    	
+	    },
 	    created() {
-
+			
 	        this.refresh();
+	        // this.$store.commit("setPlayerMini", false);
+
+	        this.clearTimer();
 
 	    },
 
 	    mounted() {
-	        //初始化路由参数
-	        // this.type = this.$route.query.type;
-	        // this.index = this.$route.query.index;
-	        // this.musiclistLength = this.musiclist.length;
-
-	        // if( this.$route.query.singleLoop){
-	        // 	this.playWay = this.$route.query.singleLoop;
-	        // };
 	        //初始化音乐
 	        this._getSong();
 	        this.$nextTick(() => {
@@ -514,221 +564,284 @@
 	}
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
-	.player-wrapper {
-	    position: absolute;
-	    background-color: rgba(53, 53, 53, 0.8);
+	#player-mini {
+
+	    height: 1.6rem;
+	    width: 100%;
+	    background-color: #FFFFFF;
+	    position: fixed;
+	    bottom: 0;
+	    .wrapper {
+	        height: 100%;
+	        display: flex;
+	        align-items: center;
+	        text-align: center;
+	        .img {
+	            flex: 1;
+	            overflow:hidden;
+	            img{
+	            	height:1.6rem;
+	            	// width:3rem;
+	            }
+	        }
+	        .detail {
+	            text-align: left;
+	            margin-left: 0.3rem;
+	            font-size: 0.5rem;
+	            flex: 2;
+	            .singer {
+	                margin-top: 0.1rem;
+	            }
+	        }
+	        .player-control {
+	            font-size: 1rem;
+	            flex: 3;
+	           height:100%;
+	            .previous ,.play,.next{
+
+	            	display:inline-block;
+	            	height:100%;
+	            	padding:0 0.2rem;
+	            }
+	            .previous ,.next{
+	            	font-size:0.8rem;
+	            	vertical-align:center;
+	            }
+	            .play{
+	            	vertical-align:top;
+	            }
+	            
+	           
+	        }
+	        .menu {
+	            font-size: 1rem;
+	            flex: 1;
+	        }
+	    }
+	}
+	#player{
+	 	position: absolute;
+	    background-color:#FFFFFF;
 	    left: 0;
 	    top: 0;
 	    right: 0;
 	    bottom: 0;
-	    .title {
-	        font-size: 1rem;
-	        margin-top: 1rem;
-	        margin-left: 0.5rem;
-	        display: flex;
-	        .icongo {
-	            color: #c0c0c0;
-	            vertical-align: middle; // display: inline-block;
-	        }
-	        .detail {
-	            vertical-align: middle;
-	            white-space: nowrap;
-	            overflow: hidden;
-	            text-overflow: ellipsis;
-	            text-align: left;
-	            margin-left: 0.6rem;
+		.player-wrapper {
+		    position: absolute;
+		    background-color: rgba(53, 53, 53, 0.8);
+		    left: 0;
+		    top: 0;
+		    right: 0;
+		    bottom: 0;
+		    .title {
+		        font-size: 1rem;
+		        margin-top: 1rem;
+		        margin-left: 0.5rem;
+		        display: flex;
+		        .icongo {
+		            color: #c0c0c0;
+		            vertical-align: middle; // display: inline-block;
+		        }
+		        .detail {
+		            vertical-align: middle;
+		            white-space: nowrap;
+		            overflow: hidden;
+		            text-overflow: ellipsis;
+		            text-align: left;
+		            margin-left: 0.6rem;
 
-	            .songName {
-	                font-size: 0.6rem;
-	                color: #eee
-	            }
-	            .singerName {
-	                margin-top: 0.4rem;
-	                font-size: 0.4rem;
-	                color: rgb(167, 166, 166)
-	            }
-	        }
-	    }
-	    .content {
-	        height: 14rem;
-	        padding: 0.2rem 0.6rem;
-	        overflow: hidden;
-	        .content-wrapper {
-	            height: 11rem;
-	            .img {
-	                width: 6.5rem;
-	                margin: 1.2rem auto;
+		            .songName {
+		                font-size: 0.6rem;
+		                color: #eee
+		            }
+		            .singerName {
+		                margin-top: 0.4rem;
+		                font-size: 0.4rem;
+		                color: rgb(167, 166, 166)
+		            }
+		        }
+		    }
+		    .content {
+		        height: 14rem;
+		        padding: 0.2rem 0.6rem;
+		        overflow: hidden;
+		        .content-wrapper {
+		            height: 11rem;
+		            .img {
+		                width: 6.5rem;
+		                margin: 1.2rem auto;
 
-	                border: solid #1B1A1A 1.5rem;
-	                height: 6.5rem;
-	                border-radius: 50%;
-	                img {
-	                    border-radius: 50%;
-	                    width: 100%;
-	                    height: 100%
-	                }
-	            }
-	            .personal-function {
-	                padding-top: 0.8rem;
-	                .icon {
-	                    width: 60%;
-	                    margin: 0 auto;
-	                    display: flex;
-	                    font-size: 0.8rem;
-	                    color: #FFFFFF;
-	                    justify-content: center space-between;
-	                    .like, .download, .comment {
-	                        flex: 1;
-	                        text-align: center;
-	                        padding: 0.2rem 0;
-	                    }
-	                }
-	            }
-	        }
-	        .lyric-wrapper {
-	            text-align: center;
-	            .voice {
-	                text-align: center;
-	                .icon {
-	                    display: inline-block;
-	                    font-size: 0.8rem;
-	                    vertical-align: middle;
-	                    color: rgb(192, 192, 192);
-	                }
-	                .bar {
-	                    vertical-align: middle;
-	                    display: inline-block;
-	                    width: 80%;
-	                    margin-left: 0.8rem;
-	                    padding: 0.5rem 0;
-	                    .bar-outer {
-	                        height: 3px;
-	                        width: 100%;
-	                        background-color: rgba(167, 166, 166, 0.5);
+		                border: solid #1B1A1A 1.5rem;
+		                height: 6.5rem;
+		                border-radius: 50%;
+		                img {
+		                    border-radius: 50%;
+		                    width: 100%;
+		                    height: 100%
+		                }
+		            }
+		            .personal-function {
+		                padding-top: 0.8rem;
+		                .icon {
+		                    width: 60%;
+		                    margin: 0 auto;
+		                    display: flex;
+		                    font-size: 0.8rem;
+		                    color: #FFFFFF;
+		                    justify-content: center space-between;
+		                    .like, .download, .comment {
+		                        flex: 1;
+		                        text-align: center;
+		                        padding: 0.2rem 0;
+		                    }
+		                }
+		            }
+		        }
+		        .lyric-wrapper {
+		            text-align: center;
+		            .voice {
+		                text-align: center;
+		                .icon {
+		                    display: inline-block;
+		                    font-size: 0.8rem;
+		                    vertical-align: middle;
+		                    color: rgb(192, 192, 192);
+		                }
+		                .bar {
+		                    vertical-align: middle;
+		                    display: inline-block;
+		                    width: 80%;
+		                    margin-left: 0.8rem;
+		                    padding: 0.5rem 0;
+		                    .bar-outer {
+		                        height: 3px;
+		                        width: 100%;
+		                        background-color: rgba(167, 166, 166, 0.5);
 
-	                        .bar-inner {
-	                            height: 3px;
-	                            width: 0;
-	                            background-color: rgba(171, 184, 179, 0.9);
-	                            position: relative;
-	                            &:after {
-	                                content: '';
-	                                display: inline-block;
-	                                width: 0px;
-	                                height: 0px;
-	                                border: solid #FFFFFF 4px;
-	                                border-radius: 50%;
-	                                position: absolute;
-	                                right: 0;
-	                                top: -2px;
-	                            }
-	                        }
-	                    }
-	                }
-	            }
-	            .lyric {
-	                overflow: hidden;
-	                position: relative;
-	                height: 13.5rem;
-	                .slide-fade-enter-active {
-	                    transition: all .3s ease;
-	                }
-	                .slide-fade-leave-active {
-	                    transition: all .8s;
-	                }
-	                .slide-fade-enter, .slide-fade-leave-to
-	                /* .slide-fade-leave-active for below version 2.1.8 */
-	                {
-	                    transform: translateX(10px);
-	                }
-	                .item-wrapper {
-	                    width: 100%;
-	                    position: absolute;
-	                    top: 3.6rem;
+		                        .bar-inner {
+		                            height: 3px;
+		                            width: 0;
+		                            background-color: rgba(171, 184, 179, 0.9);
+		                            position: relative;
+		                            &:after {
+		                                content: '';
+		                                display: inline-block;
+		                                width: 0px;
+		                                height: 0px;
+		                                border: solid #FFFFFF 4px;
+		                                border-radius: 50%;
+		                                position: absolute;
+		                                right: 0;
+		                                top: -2px;
+		                            }
+		                        }
+		                    }
+		                }
+		            }
+		            .lyric {
+		                overflow: hidden;
+		                position: relative;
+		                height: 13.5rem;
+		                .slide-fade-enter-active {
+		                    transition: all .3s ease;
+		                }
+		                .slide-fade-leave-active {
+		                    transition: all .8s;
+		                }
+		                .slide-fade-enter, .slide-fade-leave-to
+		                /* .slide-fade-leave-active for below version 2.1.8 */
+		                {
+		                    transform: translateX(10px);
+		                }
+		                .item-wrapper {
+		                    width: 100%;
+		                    position: absolute;
+		                    top: 3.6rem;
 
-	                    .item {
-	                        width: 100%;
-	                        box-sizing: border-box;
-	                        height: 1.8rem;
+		                    .item {
+		                        width: 100%;
+		                        box-sizing: border-box;
+		                        height: 1.8rem;
 
-	                        text-align: center;
+		                        text-align: center;
 
-	                        font-size: 0.6rem;
-	                        color: rgb(200, 200, 200)
-	                    }
-	                    .active {
-	                        color: #FFFFFF;
-	                    }
-	                    .nolyric {
-	                        font-size: 0.8rem;
-	                        color: #FFFFFF;
-	                    }
-	                }
-	            }
-	        }
-	    }
-	    .player-control {
-	        .control {
-	            color: #eee;
-	            display: flex;
-	            font-size: 1rem;
-	            justify-content: space-between;
-	            align-items: center;
-	            padding: 0 0.5rem;
-	            margin-top: 0.8rem;
-	            .play {
-	                font-size: 1.5rem;
-	            }
-	            .play, .next, .previous, .loop, .list {
-	                padding: 0.2rem;
-	                flex: 1;
-	                text-align: center;
-	            }
-	        }
-	        .process {
-	            text-align: center;
-	            margin-top: 10px;
-	            .time-wrapper {
-	                display: inline-block;
-	                width: 12%;
-	                .time {
-	                    color: rgb(200, 200, 200);
-	                    vertical-align: middle;
-	                }
-	            }
-	            .process-wrapper {
-	                vertical-align: middle;
-	                padding: 10px 0;
-	                margin: 0 0.5rem;
-	                height: 3px;
-	                width: 60%;
-	                display: inline-block;
-	                .process-outer {
-	                    height: 3px;
-	                    width: 100%;
-	                    background-color: rgb(167, 166, 166);
-	                    text-align: left;
-	                    .process-inner {
-	                        height: 3px;
-	                        width: 0; // display:inline-block;
-	                        background-color: #c70c0c;
-	                        position: relative;
-	                        &:after {
-	                            content: '';
-	                            width: 4px;
-	                            height: 4px;
-	                            display: inline-block;
-	                            border: solid #FFFFFF 6px;
-	                            border-radius: 50%;
-	                            position: absolute;
-	                            right: 0;
-	                            top: -6px;
-	                            background-color: #c70c0c;
-	                        }
-	                    }
-	                }
-	            }
-	        }
-	    }
+		                        font-size: 0.6rem;
+		                        color: rgb(200, 200, 200)
+		                    }
+		                    .active {
+		                        color: #FFFFFF;
+		                    }
+		                    .nolyric {
+		                        font-size: 0.8rem;
+		                        color: #FFFFFF;
+		                    }
+		                }
+		            }
+		        }
+		    }
+		    .player-control {
+		        .control {
+		            color: #eee;
+		            display: flex;
+		            font-size: 1rem;
+		            justify-content: space-between;
+		            align-items: center;
+		            padding: 0 0.5rem;
+		            margin-top: 0.8rem;
+		            .play {
+		                font-size: 1.5rem;
+		            }
+		            .play, .next, .previous, .loop, .list {
+		                padding: 0.2rem;
+		                flex: 1;
+		                text-align: center;
+		            }
+		        }
+		        .process {
+		            text-align: center;
+		            margin-top: 10px;
+		            .time-wrapper {
+		                display: inline-block;
+		                width: 12%;
+		                .time {
+		                    color: rgb(200, 200, 200);
+		                    vertical-align: middle;
+		                }
+		            }
+		            .process-wrapper {
+		                vertical-align: middle;
+		                padding: 10px 0;
+		                margin: 0 0.5rem;
+		                height: 3px;
+		                width: 60%;
+		                display: inline-block;
+		                .process-outer {
+		                    height: 3px;
+		                    width: 100%;
+		                    background-color: rgb(167, 166, 166);
+		                    text-align: left;
+		                    .process-inner {
+		                        height: 3px;
+		                        width: 0; // display:inline-block;
+		                        background-color: #c70c0c;
+		                        position: relative;
+		                        &:after {
+		                            content: '';
+		                            width: 4px;
+		                            height: 4px;
+		                            display: inline-block;
+		                            border: solid #FFFFFF 6px;
+		                            border-radius: 50%;
+		                            position: absolute;
+		                            right: 0;
+		                            top: -6px;
+		                            background-color: #c70c0c;
+		                        }
+		                    }
+		                }
+		            }
+		        }
+		    }
+		}
 	}
 </style>

@@ -1,11 +1,11 @@
 <template>
-	<div class="musicDetail" @click="hiddenMuiscDetail">
+	<div class="musicDetail" @click.stop="hiddenMuiscDetail">
 		<div class="wrapper" @click.stop>
 			<scroll ref="scroll">
 				<div>
 					<div class="title">
-						<div class="playMethod">
-							<span>{{playMethods}}</span>
+						<div class="playMethod" @click="changePlayWay">
+							<span class="methods">{{playMethods}}</span>
 							<span>({{musiclist.length}})</span>
 						</div>
 						<div class="delete"></div>
@@ -32,24 +32,34 @@
 	    props: {
 	        musiclist: Array,
 	        index: Number,
-	        playWay: String,
+	      
 
 	    },
 	    data() {
 	        return {
-	            playMethods: 'loop',
+	           
 	        }
 	    },
 	    components: {
 	        scroll
 	    },
-	    watch: {
-	        playWay() {
-
-	            this.playMethods = this.playWay;
-	        }
+	    computed:{
+	    	playMethods(){
+	    		return this.$store.state.playWay;
+	    	}
 	    },
+	   
 	    methods: {
+	    	changePlayWay(){
+	    		if(this.playMethods==="loop"){
+	    			this.$store.commit("setPlayWay","random")
+	    		}else if(this.playMethods==="random"){
+	    			this.$store.commit("setPlayWay","singleLoop")
+	    		}else if(this.playMethods==="singleLoop"){
+	    			this.$store.commit("setPlayWay","loop")
+	    		}
+	    		
+	    	},
 	        loadImage() {
 	            this.$refs.scroll.refresh()
 	        },
@@ -68,12 +78,12 @@
 	    	this.$nextTick(()=>{
 	    		setTimeout(()=>{
 	    			this.loadImage()
-	    		},1000)
+	    		},2000)
 	    	})
 	    }
 	}
 </script>
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss" scoped>
 	.musicDetail {
 	    position: absolute;
 	    top: 0;
@@ -87,10 +97,18 @@
 	        width: 100%;
 	        height: 10rem;
 	        overflow: hidden;
+	        font-size:0.5rem;
 
 	        .title {
 	            padding: 0.3rem 0.2rem;
-	            border-bottom: solid #e6e8e9 1px
+	            border-bottom: solid #e6e8e9 1px;
+	            .playMethod{
+	            	.methods{
+	            		text-align:center;
+	            		display:inline-block;
+	            		width:2.3rem;
+	            	}
+	            }
 	        }
 	        .content {
 	            // height: 45vh;

@@ -141,7 +141,7 @@
 	    	initvolume(){
 	    		var barInner = this.$refs.voice.querySelector(".bar-outer .bar-inner")
 	    		var volume = this.$refs.audio.volume;
-	    		volume = 0.3;
+	    		volume = 0.1;
 	    		barInner.style.width = volume*100+"%";
 	    	},
 	    	setvoice($event){

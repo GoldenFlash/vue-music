@@ -5,10 +5,25 @@ export default new Vuex.Store({
 	state:{
 		musiclist:[],
 		index:0,
-		currentTime:0,
 		playWay:'loop',
+		musicOptions:'MusicClassify',
+		showPlayer:false,
 	},
 	mutations:{
+		setVolume(state,value){
+			state.volume = value;
+		},
+		setCurrentTime(state,value){
+			state.currentTime = value;
+		},
+		
+		setShowPlayer(state,value){
+			state.showPlayer = value;
+			
+		},
+		setMusicOptions(state,value){
+			state.musicOptions = value;
+		},
 		setMusiclist(state,value){
 			state.musiclist = value
 		},
