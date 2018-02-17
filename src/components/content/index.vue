@@ -4,7 +4,7 @@
 		<div class="onlineMusic-options">
 			<span @click="goMusicClassify" :class="{'current':musicOptions==='MusicClassify'}
 ">音乐</span>
-			<span @click="goRadio" :class="{'current':musicOptions==='MusicRadio'}">电台</span>
+			<!-- <span @click="goRadio" :class="{'current':musicOptions==='MusicRadio'}">电台</span> -->
 			<span  @click="search">搜索</span>
 		</div>
 		<keep-alive>
