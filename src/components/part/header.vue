@@ -22,6 +22,9 @@ import axios from 'axios';
 	    			console.log('登录成功')
 	    		})
 	    	}
+	    },
+	    mounted(){
+	    	this.login();
 	    }
 	  
 	}

@@ -1,7 +1,7 @@
 <template>
 	<div class="musicDetail" @click.stop="hiddenMuiscDetail">
 		<div class="wrapper" @click.stop>
-			<scroll ref="scroll">
+			<scroll :data="musiclist" ref="scroll">
 				<div>
 					<div class="title">
 						<div class="playMethod" @click="changePlayWay">
@@ -61,7 +61,9 @@
 	    		
 	    	},
 	        loadImage() {
-	            this.$refs.scroll.refresh()
+	            setTimeout(()=>{
+	            	this.$refs.scroll.refresh()
+	            },500)
 	        },
 	        deleteSongs(index) {
 	            this.$store.commit("deleteSongs", index)
