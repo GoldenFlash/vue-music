@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import index from '@/components/content/index.vue'
+import index from '@/view/index/index.vue'
 import musicClassify from '@/components/content/musicClassify/musicClassify.vue'
 import recommend from '@/components/recommend/recommend.vue'
 import songsList from '@/components/songsList/songsList.vue'
@@ -17,26 +17,8 @@ Vue.use(Router)
 
 export default new Router({
   routes: [{
-      path: '/HelloWorld',
-      component: HelloWorld
-    },
-    {
       path: '/',
-      redirect: {
-        path: '/index/musicClassify'
-      },
-    },
-    {
-      path: '/index',
-      redirect: {
-        path: '/index/musicClassify'
-      },
-      name: 'index',
-      component: index,
-      children: [{
-        path: 'musicClassify',
-        component: musicClassify
-      }]
+      component: index
     },
     {
       path: '/recommend',
