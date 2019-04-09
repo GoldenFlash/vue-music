@@ -1,6 +1,10 @@
 <template>
 	<div class="wrapper">
-        <v-header></v-header>
+		<header style="height:50px">
+			<v-header ></v-header>
+		</header>
+        
+		<div style="flex:1">
 		<scroll :data="newSongs" ref="scroll">
 			<div>
 				<!-- <div class="slider-wrapper">
@@ -15,12 +19,9 @@
 						<img class="icon" src="../../assets/FM.svg" alt="">
 						<span>私人FM</span>
 					</div>
-					<div class="item" @click="goRecommend">
-						<img class="icon" src="../../assets/rcsongs.svg" alt="">
-						<span>每日推荐</span>
-					</div>
+					
 					<div class="item" @click="goSongsList">
-						<img class="icon" style="width:50px;height:50px" src="../../assets/songList.svg" alt="">
+						<img class="icon" src="../../assets/rcsongs.svg" alt="">
 						<span>歌单</span>
 					</div>
 					<div class="item" @click="goRankingList">
@@ -31,7 +32,7 @@
 				<div class="recommend">
 					<div class="title" @click="goSongsList">
 						<span>推荐歌单</span>
-						<i class="fa fa-angle-right"></i>
+						<img class="arrows" src="../../assets/right.svg" alt="">
 					</div>
 					<div class="recommend-content" v-show="recommendSongList.length">
 						<div class="item" v-for="(item,index) in recommendSongList" :key="index" @click="goSonglistDetail(item.id,item.picUrl)">
@@ -43,7 +44,7 @@
 				<div class="newSongs">
 					<div class="title">
 						<span>最新音乐</span>
-						<i class="fa fa-angle-right"></i>
+						<img class="arrows" src="../../assets/right.svg" alt="">
 					</div>
 					<div class="newSongs-wrapper" v-show="newSongs.length">
 						<div class="item" v-for="(item,index) in newSongs" :key="index" @click="goPlayer(index)">
@@ -54,7 +55,7 @@
 								</div>
 							</div>
 							<div class="icon-play">
-								<i class="fa fa-play-circle-o"></i>
+								<img src="../../assets/player.svg" alt="">
 							</div>
 						</div>
 					</div>
@@ -62,6 +63,7 @@
 			</div>
 			<!-- <loading v-show="!loading"></loading> -->
 		</scroll>
+		</div>
 	</div>
 </template>
 <script type="text/javascript">
@@ -228,6 +230,8 @@
 	@import '@/common/style/variable.scss';
 	.wrapper {
 		height:100vh;
+		display: flex;
+		flex-direction: column;
 		// overflow:scroll;
 	    .loading {
 	        position: absolute;
@@ -267,53 +271,35 @@
 	        }
 	    }
 	    .recommend {
-	        .title {
-	            margin-left: 0.2rem;
-	            &>span {
-	                font-size: 0.6rem
-	            }
-	            .fa-angle-right {
-	                font-size: 0.8rem
-	            }
-	        }
+	        
 	        .recommend-content {
 	            margin-top: 0.2rem;
 	            margin-left: 0.1rem;
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-around;
 	            .item {
 	                box-sizing: border-box;
-	                display: inline-block;
-	                width: 33%;
-	                height: 5.1rem; // background-color: yellow;
-	                padding: 1px;
+					border-radius: 6px;
+	                width: 30%;
+	                // padding: 1px;
 	                .description {
-	                    width: 3.6rem;
-	                    font-size: 0.5rem;
-	                    margin-top: 0.1rem;
-	                    margin-left: 0.1rem;
-	                    white-space: nowrap;
-	                    overflow: hidden;
-	                    text-overflow: ellipsis;
-	                    color: #666;
+						margin: 5px 0;
+	                  	font-size: 12px;
+						  line-height:1.5em;
+	                	// color: #666;
 	                }
 	            }
 	        }
 	    }
 	    .newSongs {
-	        .title {
-	            margin-left: 0.2rem;
-	            &>span {
-	                font-size: 0.6rem
-	            }
-	            .fa-angle-right {
-	                font-size: 0.8rem
-	            }
-	        }
 	        .newSongs-wrapper {
-	            margin-top: 0.2rem;
-	            margin-left: 0.2rem;
+				padding:0 10px;
 	            .item {
 	                padding: 0.4rem 0;
 	                border-bottom: solid #e6e8e9 1px;
+					display: flex;
+					align-items: center;
 	                .songs-info {
 	                    display: inline-block;
 	                    width: 70%;
@@ -321,30 +307,41 @@
 	                    overflow: hidden;
 	                    text-overflow: ellipsis;
 	                    .name {
-	                        font-size: 0.6rem;
+	                        font-size:18px;
 	                    }
 	                    .singer {
-	                        margin-top: 0.3rem;
-	                        font-size: 0.5rem;
+							margin-top:10px;
+	                        font-size: 13px;
 	                        color: #666;
 	                    }
 	                }
+					.icon-play {
+						display: flex;
+						flex:1;
+						justify-content: flex-end;
+						img{
+							width:30px;
+							height: 30px;
+						}
+					}
 	            }
-	            .icon-play {
-	                // width:10px;
-	                display: inline-block;
-	                font-size: 0.8rem;
-	                margin-left: 1.6rem;
-	                vertical-align: top;
-	                margin-top: 0.3rem;
-	                color: #AAAAAA;
-	            }
+	           
 	        }
 	    }
     }
     .icon{
-        width:35px;
-        height:35px;
+        width:30px;
+        height:30px;
         margin-bottom: 10px
     }
+	.arrows{
+		width:15px;
+		height:15px;
+	}
+	.title {
+		display:flex;
+		align-items:center;
+		font-size: 18px;
+		margin: 5px 10px;
+	}
 </style>

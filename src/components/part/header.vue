@@ -40,7 +40,7 @@ import axios from 'axios';
 </script>
 <style lang="scss" rel="stylesheet/scss">
 	.header {
-	    height: 1.6rem;
+	    height:50px;
 	    width: 100%;
 	    background-color: rgb(211, 58, 49);
 	    box-sizing: border-box;
