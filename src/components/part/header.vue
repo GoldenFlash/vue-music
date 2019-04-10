@@ -1,6 +1,7 @@
 <template>
 	<div class="header">
-		<span class="icon-menu">
+		<input style="width:90%;height:40px" type="text">
+		<!-- <span class="icon-menu">
 			<i class="fa fa-bars"></i>
 		</span>
 		<span class="icon-music ">
@@ -12,7 +13,7 @@
 		</span>
 		<span class="icon-search" @click="search">
 			<i class="fa fa-search"></i>
-		</span>
+		</span> -->
 	</div>
 </template>
 <script type="text/javascript">
@@ -42,7 +43,7 @@ import axios from 'axios';
 	.header {
 	    height:50px;
 	    width: 100%;
-	    background-color: rgb(211, 58, 49);
+	    // background-color: rgb(211, 58, 49);
 	    box-sizing: border-box;
 	    padding: 0 0.5rem;
 	    display: flex;
