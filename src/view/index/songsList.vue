@@ -1,8 +1,8 @@
 <template>
   <div class="recommend">
     <div class="title" @click="goSongsList">
-      <span>推荐歌单</span>
-      <img class="arrows" src="../../assets/right.svg" alt>
+      <h4>推荐歌单</h4>
+      <!-- <img class="arrows" src="../../assets/right.svg" alt> -->
     </div>
     <div class="recommend-content" v-show="list">
       <div
@@ -60,18 +60,22 @@ export default {
     display: flex;
     align-items: center;
     font-size: 18px;
-    margin: 5px 10px;
+    margin: 10px 15px;
+    h4{
+        font-weight: bold
+    }
   }
   .recommend-content {
-    margin-top: 0.2rem;
-    margin-left: 0.1rem;
+    padding:0 15px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
     .item {
       box-sizing: border-box;
-      border-radius: 6px;
-      width: 30%;
+      width: 31%;
+      img{
+           border-radius: 6px;
+      }
       .description {
         margin: 5px 0;
         font-size: 12px;

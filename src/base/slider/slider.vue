@@ -153,6 +153,7 @@
         display:flex;
         align-items: center;
         justify-content: center;
+        padding:0 15px;
         a{
           display: block;
           width: 90%;
@@ -161,7 +162,7 @@
 				}
         img{
           display: block;
-          width: 94%;
+          // width: 94%;
           border-radius: 12px
 				}
 			}

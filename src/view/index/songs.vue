@@ -1,8 +1,8 @@
 <template>
   <div class="songs">
     <div class="title">
-        <span>最新音乐</span>
-        <img class="arrows" src="../../assets/right.svg" alt>
+        <h4>最新音乐</h4>
+        <!-- <img class="arrows" src="../../assets/right.svg" alt> -->
     </div>
     <div class="newSongs-wrapper" v-show="list.length">
         <div
@@ -68,20 +68,22 @@ export default {
   display: flex;
   align-items: center;
   font-size: 18px;
-  margin: 5px 10px;
+  margin: 5px 15px;
+  h4{
+    font-weight: bold
+  }
 }
  .songs {
     margin-top: 20px;
     .newSongs-wrapper {
-      padding: 0 10px;
+      padding: 0 15px;
       .item {
+        color:#333;
         padding: 0.4rem 0;
         border-bottom: solid #e6e8e9 1px;
         display: flex;
         align-items: center;
         .songs-info {
-          display: inline-block;
-          width: 70%;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -89,8 +91,8 @@ export default {
             font-size: 18px;
           }
           .singer {
-            margin-top: 10px;
-            font-size: 13px;
+            margin-top: 5px;
+            font-size: 12px;
             color: #666;
           }
         }

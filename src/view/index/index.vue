@@ -1,24 +1,24 @@
 <template>
   <div class="wrapper">
     <v-header></v-header>
-    <div class="home">
-      <div>
-        <div v-if="banners.length" class="slider-wrapper" ref="sliderWrapper">
-          <slider>
-            <div v-for="(item,index) in banners" :key="index">
-              <img :src="item.imageUrl">
-            </div>
-          </slider>
+
+    <div v-if="banners.length" class="slider-wrapper" ref="sliderWrapper">
+      <slider>
+        <div v-for="(item,index) in banners" :key="index">
+          <img :src="item.imageUrl">
         </div>
-        <songList v-if="recommendSongList.length" :list="recommendSongList"></songList>
-        <songs v-if="songs.length" :list="songs"></songs>
-      </div>
-      <loading v-show="!loading"></loading>
+      </slider>
     </div>
+
+    <songList v-if="recommendSongList.length" :list="recommendSongList"></songList>
+
+    <songs v-if="songs.length" :list="songs"></songs>
+
+    <loading v-show="!loading"></loading>
   </div>
 </template>
 <script type="text/javascript">
-import vHeader from "@/components/part/header.vue";
+import vHeader from "./header.vue";
 import songList from "./songsList.vue";
 import songs from "./songs.vue";
 
@@ -123,13 +123,13 @@ export default {
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
 @import "@/common/style/variable.scss";
+
 .wrapper {
-  height: 100%;
+  height:100%;
   width: 100%;
-}
-.home {
-  width: 100%;
-  margin-top: 60px;
+  // padding:0 20px;
+
+
   .scroll {
     height: 100%;
     width: 100%;
@@ -138,6 +138,7 @@ export default {
     position: absolute;
   }
   .slider-wrapper {
+    padding-top: 60px;
     width: 100%;
     overflow: hidden;
   }
