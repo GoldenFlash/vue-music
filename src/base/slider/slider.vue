@@ -27,7 +27,7 @@
       },
       interval: {
         type: Number,
-        default: 4000
+        default: 3000
       }
     },
     data() {
@@ -88,14 +88,16 @@
         this.slider = new BScroll(this.$refs.slider, {
           scrollX: true,
           scrollY: false,
-          momentum: false,
+          momentum: true,
           snap: true,
           snapLoop: this.loop,
+          // snapLoop: false,
           snapThreshold: 0.3,
           snapSpeed: 400
         })
 
         this.slider.on('scrollEnd', () => {
+          console.log("scrollEnd")
           let pageIndex = this.slider.getCurrentPage().pageX
           if (this.loop) {
             pageIndex -= 1
@@ -108,6 +110,7 @@
         })
 
         this.slider.on('beforeScrollStart', () => {
+          console.log("beforeScrollStart")
           if (this.autoPlay) {
             clearTimeout(this.timer)
           }
@@ -122,6 +125,7 @@
         if (this.loop) {
           pageIndex += 1
         }
+        console.log("pageIndex",pageIndex)
         this.timer = setTimeout(() => {
           this.slider.goToPage(pageIndex, 0, 400)
         }, this.interval)
@@ -134,6 +138,7 @@
   @import "@/common/style/variable.scss";
 
   .slider{
+    position: relative;
     min-height: 1px;
     .slider-group{
       position: relative;
@@ -144,15 +149,20 @@
         box-sizing: border-box;
         overflow: hidden;
         text-align: center;
+        width:100%;
+        display:flex;
+        align-items: center;
+        justify-content: center;
         a{
           display: block;
-          width: 100%;
+          width: 90%;
           overflow: hidden;
           text-decoration: none;
 				}
         img{
           display: block;
-          width: 100%
+          width: 94%;
+          border-radius: 12px
 				}
 			}
 		}

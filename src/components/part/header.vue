@@ -1,19 +1,6 @@
 <template>
-	<div class="header">
-		<input style="width:90%;height:40px" type="text">
-		<!-- <span class="icon-menu">
-			<i class="fa fa-bars"></i>
-		</span>
-		<span class="icon-music ">
-			<i class="fa fa-music"></i>
-		</span>
-		<span class="icon-note current" >♪</span>
-		<span class="icon-contact" @click="login">
-			<i class="fa fa-qq"></i>
-		</span>
-		<span class="icon-search" @click="search">
-			<i class="fa fa-search"></i>
-		</span> -->
+	<div class="header" :style="{position:position}">
+		<input class="input" type="text">
 	</div>
 </template>
 <script type="text/javascript">
@@ -21,9 +8,21 @@ import axios from 'axios';
 	export default {
 	    data() {
 	        return {
-
+				position:"fixed"
 	        }
-	    },
+		},
+		mounted() {
+			window.onscroll = (e)=>{
+				// var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+				// console.log(scrollTop)
+				// if(scrollTop>=1){
+				// 	 this.position = "fixed"
+				// }else{
+				// 	this.position = "static"
+				// }
+				
+			}
+		},
 	    methods:{
 	    	search(){
 	    		this.$router.push({
@@ -41,31 +40,20 @@ import axios from 'axios';
 </script>
 <style lang="scss" rel="stylesheet/scss">
 	.header {
-	    height:50px;
-	    width: 100%;
-	    // background-color: rgb(211, 58, 49);
-	    box-sizing: border-box;
-	    padding: 0 0.5rem;
-	    display: flex;
-	    justify-content: center;
-	    align-items: center;
-	    .current {
-	        color: #FFFF
-	    }
-	    .icon-menu {
-	        flex: 2;
-	        color: #ffff;
-	    }
-	    .icon-search {
-	        flex: 0.5;
-	        margin-left: 1rem
-	    }
+	    height:60px;
+		width: 100%;
+		position: fixed;
+		z-index: 10;
+	    background-color:#FFF;
+		box-sizing: border-box;
+		display: flex;
+		align-items:center;
+		justify-content: center;
+	   .input{
+			width:85%;
+			height:35px;
+			background-color: #EEEEEE;
+	   }
 	}
-	.icon-menu, .icon-music, .icon-note, .icon-contact, .icon-search {
-	    font-size: 0.8rem;
-	    flex: 1;
-	}
-	.icon-music, .icon-note, .icon-contact, .icon-search {
-	    color: #e58983;
-	}
+	
 </style>
