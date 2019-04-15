@@ -1,8 +1,8 @@
 <template>
 	<div class="songList-wrapper">
-		<directer>
+		<!-- <directer>
 			<span>歌单</span>
-		</directer>
+		</directer> -->
 		<div class="listTheme">
 			<div class="listImg">
 				<img :src="listPicUrl" alt="">
@@ -104,24 +104,24 @@ import scroll from "@/base/scroll/scroll2.vue"
 		top:0;
 		bottom:0;
 	    .listTheme {
-	        height: 4rem;
+	        // height: 4rem;
+			width:100%;
+			height:150px;
 	        background-color: rgba(5, 24, 40, 0.8);
 	        padding-top: 0.3rem;
 	        display: flex;
+			align-items: center;
 	        .listImg {
-	            height: 3rem;
-
-	            margin: 0.1rem 0 0 0.6rem;
-	            display: inline-block;
-	            flex: 1;
+	           width:120px;
+			   height: 120px;
 	            img {
 	                height: 100%;
+					width:100%;
 	            }
 	        }
 	        .decoration {
-	            display: inline-block;
-	            white-space: normal;
-	            flex: 2;
+	           
+	            flex: 1;
 	            color: #FFFFFF;
 	            font-size: 0.6rem;
 	            margin-top: 0.2rem;
