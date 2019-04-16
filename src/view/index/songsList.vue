@@ -11,7 +11,7 @@
         :key="index"
         @click="goSonglistDetail(item.id,item.picUrl)"
       >
-        <img v-lazy="item.picUrl">
+        <img v-lazy="item.picUrl" alt="">
         <div class="description">{{item.name}}</div>
       </div>
     </div>

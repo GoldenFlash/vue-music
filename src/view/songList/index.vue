@@ -4,12 +4,15 @@
 		<!-- <directer>
 			<span>歌单</span>
 		</directer> -->
-		<div class="listTheme">
-			<div class="listImg">
-				<img :src="listPicUrl" alt="">
-			</div>
-			<div class="decoration">
-				{{listName}}
+		<div class="info" :style="{backgroundImage: 'url('+listPicUrl+')',backgroundSize:'cover'}">
+			<div class="cover"></div>
+			<div class="wrapper">
+				<div class="listImg">
+					<img :src="listPicUrl" alt="">
+				</div>
+				<div class="decoration">
+					{{listName}}
+				</div>
 			</div>
 		</div>
 		<div class="content">
@@ -55,6 +58,7 @@ import scroll from "@/base/scroll/scroll2.vue"
 	            listPicUrl: '',
 	            listName: '',
 	            songList: [],
+	            color:"red"
 	        }
 	    },
 	    components: {
@@ -101,33 +105,53 @@ import scroll from "@/base/scroll/scroll2.vue"
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
 	.songList-wrapper {
-		position:fixed;
-		top:0;
-		bottom:0;
-	    .listTheme {
+		// position:fixed;
+		// top:0;
+		// bottom:0;
+	    .info {
 	        // height: 4rem;
 			width:100%;
-			height:150px;
-	        background-color: rgba(5, 24, 40, 0.8);
-	        padding-top: 0.3rem;
-	        display: flex;
-			align-items: center;
-	        .listImg {
-	           width:120px;
-			   height: 120px;
-	            img {
-	                height: 100%;
-					width:100%;
-	            }
+			height:250px;
+			position: relative;
+			overflow: hidden;
+			.cover{
+				position: absolute;
+				top:50%;
+				left: 50%;
+				transform:translateX(-50%) translateY(-50%);
+				width:140%;
+				height:300px;
+				background-color:rgba(255,255,255,0.9);
+        		-webkit-filter: blur(20px);
+			    -moz-filter: blur(20px);
+			    -ms-filter: blur(20px);
+			    -o-filter: blur(20px);
+			    filter: blur(20px);
+			}
+	        .wrapper{
+	        	position: absolute;
+	        	z-index: 1;
+	        	width:100%;
+				height:100%;
+				
+		        .listImg {
+		           width:120px;
+				   height: 120px;
+		            img {
+		                height: 100%;
+						width:100%;
+		            }
+		        }
+		        .decoration {
+		           
+		            flex: 1;
+		            color: #FFFFFF;
+		            font-size: 0.6rem;
+		            margin-top: 0.2rem;
+		            line-height: 0.9rem;
+		        }
 	        }
-	        .decoration {
-	           
-	            flex: 1;
-	            color: #FFFFFF;
-	            font-size: 0.6rem;
-	            margin-top: 0.2rem;
-	            line-height: 0.9rem;
-	        }
+	
 	    }
 	    .content {
 	        .title {

@@ -7,7 +7,7 @@
 			<h2>{{title}}</h2>
 		</div>
 		<div class="right">
-			<img src="./asset/left.svg">
+			<!-- <img src="./asset/left.svg"> -->
 		</div>
 	</div>
 </template>
@@ -28,14 +28,18 @@
 </script>
 <style scoped  lang="scss" rel="stylesheet/scss">
 	.nav{
-		// width:100%;
+		// margin:0 20px;
+		width:100%;
 		height:64px;
-		background-color: red;
+		// background-color: red;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		.left{
-			flex:1;
+			// flex:1;
+			width:60px;
+			display:flex;
+			justify-content: center;
 			img{
 				width:30px;
 				height:30px;
@@ -43,13 +47,12 @@
 		}
 		.title{
 			flex:1;
-			img{
-				width:30px;
-				height:30px;
-			}
+			text-align: center;
+
 		}
 		.right{
-			flex:1;
+			// flex:1;
+			width:60px;
 			img{
 				width:30px;
 				height:30px;
