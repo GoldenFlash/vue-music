@@ -1,5 +1,6 @@
 <template>
 	<div class="songList-wrapper">
+		<navBar></navBar>
 		<!-- <directer>
 			<span>歌单</span>
 		</directer> -->
@@ -44,10 +45,9 @@
 <script type="text/javascript">
 import scroll from "@/base/scroll/scroll2.vue"
 	import axios from 'axios'
-	import {
-	    listDetailFormate
-	} from '@/common/js/musicFormate.js'
-	import directer from '@/components/part/directer.vue';
+	import {  listDetailFormate } from '@/common/js/musicFormate.js'
+	// import directer from '@/components/part/directer.vue';
+	import navBar from "../../components/nav/nav.vue"
 	export default {
 	    data() {
 	        return {
@@ -58,8 +58,9 @@ import scroll from "@/base/scroll/scroll2.vue"
 	        }
 	    },
 	    components: {
-	        directer,
-	        scroll
+	        // directer,
+	        scroll,
+	        navBar
 	    },
 	    methods: {
 	    	loadImage() { 
