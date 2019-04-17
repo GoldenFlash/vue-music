@@ -23,7 +23,7 @@ export default new Router({
       meta:{index:0}
     },
     {
-      path:'/songListDetail',
+      path:'/songListDetail/:id',
       name:'songListDetail',
       component:songListDetail,
       meta:{index:1}

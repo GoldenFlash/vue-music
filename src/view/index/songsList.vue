@@ -5,15 +5,13 @@
       <!-- <img class="arrows" src="../../assets/right.svg" alt> -->
     </div>
     <div class="recommend-content" v-show="list">
-      <div
-        class="item"
-        v-for="(item,index) in list"
-        :key="index"
-        @click="goSonglistDetail(item.id,item.picUrl)"
-      >
-        <img v-lazy="item.picUrl" alt="">
-        <div class="description">{{item.name}}</div>
-      </div>
+      <router-link  class="item" v-for="(item,index) in list"  :key="index" :to="'/songListDetail/'+item.id">
+        <div
+        >
+          <img v-lazy="item.picUrl" alt="">
+          <div class="description">{{item.name}}</div>
+        </div>
+      </router-link> 
     </div>
   </div>
 </template>  

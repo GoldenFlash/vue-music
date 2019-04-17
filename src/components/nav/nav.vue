@@ -1,10 +1,10 @@
 <template>
 	<div class="nav">
-		<div class="left">
+		<div class="left" @click="goBack">
 			<img src="./asset/left.svg">
 		</div>
 		<div class="title">
-			<h2>{{title}}</h2>
+			<h2><slot></slot></h2>
 		</div>
 		<div class="right">
 			<!-- <img src="./asset/left.svg"> -->
@@ -22,6 +22,11 @@
 		},
 		data(){
 			return {}
+		},
+		methods:{
+			goBack(){
+				this.$router.go(-1)
+			}
 		}
 
 	}
@@ -48,6 +53,7 @@
 		.title{
 			flex:1;
 			text-align: center;
+			color:#FFF
 
 		}
 		.right{

@@ -1,17 +1,16 @@
 <template>
 	<div class="songList-wrapper">
-		<navBar></navBar>
-		<!-- <directer>
-			<span>歌单</span>
-		</directer> -->
-		<div class="info" :style="{backgroundImage: 'url('+listPicUrl+')',backgroundSize:'cover'}">
-			<div class="cover"></div>
+		<navBar style="position: fixed;z-index: 10">歌单</navBar>
+		<div class="info" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}">
+			<div class="cover"  :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}"></div>
 			<div class="wrapper">
-				<div class="listImg">
-					<img :src="listPicUrl" alt="">
-				</div>
-				<div class="decoration">
-					{{listName}}
+				<div style="margin-top: 60px;display: flex;">
+					<div class="listImg">
+						<img :src="playlist.coverImgUrl" alt="">
+					</div>
+					<div class="decoration">
+						{{playlist.name}}
+					</div>
 				</div>
 			</div>
 		</div>
@@ -58,7 +57,8 @@ import scroll from "@/base/scroll/scroll2.vue"
 	            listPicUrl: '',
 	            listName: '',
 	            songList: [],
-	            color:"red"
+	            color:"red",
+	            playlist:{}
 	        }
 	    },
 	    components: {
@@ -84,33 +84,32 @@ import scroll from "@/base/scroll/scroll2.vue"
 	    		
 	    	},
 	        getsongListDetail() {
+	        	// console.log(" this.$route", this.$route)
+	        	var listId = this.$route.params.id;
+	        	// this.listPicUrl = this.$route.query.picUrl;
 	            axios.get('/playlist/detail', {
 	                params: {
-	                    id: this.listId
+	                    id: listId
 	                }
 	            }).then((res) => {
-	               
+	               console.log(res)
+	               	this.playlist =res.data.playlist 
 	                this.songList = listDetailFormate(res.data.playlist.tracks);
-	                this.listName = res.data.playlist.name;
+	                // this.listName = res.data.playlist.name;
 	                
 	            })
 	        }
 	    },
 	    mounted() {
-	        this.listId = this.$route.query.id;
-	        this.listPicUrl = this.$route.query.picUrl;
+	        
 	        this.getsongListDetail();
 	    },
 	}
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
 	.songList-wrapper {
-		// position:fixed;
-		// top:0;
-		// bottom:0;
 	    .info {
-	        // height: 4rem;
-			width:100%;
+			// width:100%;
 			height:250px;
 			position: relative;
 			overflow: hidden;
@@ -121,7 +120,7 @@ import scroll from "@/base/scroll/scroll2.vue"
 				transform:translateX(-50%) translateY(-50%);
 				width:140%;
 				height:300px;
-				background-color:rgba(255,255,255,0.9);
+				background-color:rgba(255,255,255,1);
         		-webkit-filter: blur(20px);
 			    -moz-filter: blur(20px);
 			    -ms-filter: blur(20px);
@@ -131,24 +130,32 @@ import scroll from "@/base/scroll/scroll2.vue"
 	        .wrapper{
 	        	position: absolute;
 	        	z-index: 1;
-	        	width:100%;
+	        	// width:100%;
+	        	top:0;
+	        	left:0;
+	        	right: 0;
 				height:100%;
-				
+				// border:solid yellow 1px;
+				background-color: rgba(0,0,0,0.4);
+				padding:0 20px;
 		        .listImg {
 		           width:120px;
 				   height: 120px;
 		            img {
 		                height: 100%;
 						width:100%;
+						border-radius: 6px;
 		            }
 		        }
 		        .decoration {
-		           
+		           margin-left: 20px;
 		            flex: 1;
 		            color: #FFFFFF;
-		            font-size: 0.6rem;
+		            font-size:16px;
 		            margin-top: 0.2rem;
 		            line-height: 0.9rem;
+		            overflow: hidden;
+					text-overflow:ellipsis;
 		        }
 	        }
 	
