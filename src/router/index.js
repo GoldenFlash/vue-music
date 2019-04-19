@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import index from '@/view/index/index.vue'
-import songListDetail from '@/view/songList/index.vue'
+import detail from '@/view/detail/index.vue'
 
 // import recommend from '@/components/recommend/recommend.vue'
 // import songsList from '@/components/songsList/songsList.vue'
@@ -23,9 +23,9 @@ export default new Router({
       meta:{index:0}
     },
     {
-      path:'/songListDetail/:id',
-      name:'songListDetail',
-      component:songListDetail,
+      path:'/detail/:id',
+      name:'detail',
+      component:detail,
       meta:{index:1}
     },
     // {

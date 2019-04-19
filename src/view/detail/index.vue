@@ -9,7 +9,32 @@
 						<img :src="playlist.coverImgUrl" alt="">
 					</div>
 					<div class="decoration">
-						{{playlist.name}}
+						<p>{{playlist.name}}</p>
+						<div>
+							<div style="display: flex;align-items: center;">
+								<img style="width:30px;height: 30px;border-radius: 20px" :src="playlist.creator.avatarUrl">
+								<span style="font-size: 14px;margin-left: 5px;color:#e6e6e6">{{playlist.creator.nickname}}</span>
+								<img style="height:15px" src="./asset/right.svg">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class ="icon-wrapper">
+					<div class="itemIcon">
+						<img  src="./asset/cm6_list_detail_icn_cmt@3x.png">
+						<span >{{playlist.commentCount}}</span>
+					</div>
+					<div class="itemIcon">
+						<img src="./asset/cm6_list_detail_icn_share@3x.png">
+						<span>{{playlist.shareCount}}</span>
+					</div>
+					<div class="itemIcon">
+						<img src="./asset/cm6_list_detail_icn_dld@3x.png">
+						<span>下载</span>
+					</div>
+					<div class="itemIcon">
+						<img  src="./asset/cm6_list_detail_icn_multi@3x.png">
+						<span>多选</span>
 					</div>
 				</div>
 			</div>
@@ -18,37 +43,33 @@
 			<div class="title">
 				<div class="button" @click='goPlayer(0,"loop")'>
 					<div class="icon">
-						<i class="fa fa-play-circle-o"></i>
+						<img src="./asset/cm2_list_icn_play@3x.png">
 					</div>
 					<div class="name">播放全部</div>
 				</div>
 			</div>
 			<div class="songs">
-				<scroll ref="scroll" :data="songList">
-					<ul>
-						<li class="item" v-for="(item,index) in songList" :key = "index" @click='goPlayer(index,"singleLoop")'>
-							<div class="wrapper">
-								<div class="name">{{item.name}}</div>
-								<div class="singer">
-									{{item.singer}} - {{item.albumName}}
-								</div>
+				<ul>
+					<li class="item" v-for="(item,index) in songList" :key = "index" @click='goPlayer(index,"singleLoop")'>
+						<div class="index"><span>{{index+1}}</span></div>
+						<div class="wrapper">
+							<div class="name">{{item.name}}</div>
+							<div class="singer">
+								{{item.singer}} - {{item.albumName}}
 							</div>
-							<div class="menu">
-								<i class="fa fa-list" aria-hidden="true"></i>
-							</div>
-						</li>
-					</ul>
-				</scroll>
-				
+						</div>
+						<div class="menu">
+							<i class="fa fa-list" aria-hidden="true"></i>
+						</div>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
 </template>
 <script type="text/javascript">
-import scroll from "@/base/scroll/scroll2.vue"
 	import axios from 'axios'
 	import {  listDetailFormate } from '@/common/js/musicFormate.js'
-	// import directer from '@/components/part/directer.vue';
 	import navBar from "../../components/nav/nav.vue"
 	export default {
 	    data() {
@@ -108,6 +129,7 @@ import scroll from "@/base/scroll/scroll2.vue"
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
 	.songList-wrapper {
+		height:100%;
 	    .info {
 			// width:100%;
 			height:250px;
@@ -157,19 +179,47 @@ import scroll from "@/base/scroll/scroll2.vue"
 		            overflow: hidden;
 					text-overflow:ellipsis;
 		        }
+		        .icon-wrapper{
+		        	display: flex;
+		        	justify-content: center;
+
+		        	margin-top: 10px;
+		        	.itemIcon{
+			        	flex:1;
+			        	display: flex;
+			        	justify-content:center;
+			        	align-items:center;
+			        	flex-direction:column;
+			        	img{
+			        		// height:30px;
+			        		width:30px
+			        	}
+			        	span{
+			        		color:#FFF;
+			        		margin-top:5px;
+			        		font-size: 13px
+			        	}
+			        }
+		        }
+		        
 	        }
 	
 	    }
 	    .content {
 	        .title {
 	            .button {
-	                padding: 0.5rem;
-	                .icon, .name {
-	                    font-size: 0.7rem;
-	                    display: inline-block;
+	               display: flex;
+	               align-items:center;
+	               margin-top: 15px;
+	               margin-left: 10px;
+	                .icon{
+	                   width:22px;
+	                   height:22px;
 	                }
 	                .name {
-	                    margin-left: 0.5rem;
+	                    margin-left:5px;
+	                    font-size: 18px;
+	                    font-weight: bold
 	                }
 	            }
 	        }
@@ -177,13 +227,17 @@ import scroll from "@/base/scroll/scroll2.vue"
 	        	height:62vh;
 	        	overflow:hidden;
 	            .item {
-	                margin: 0.5rem 0.4rem;
-	                border-bottom: solid #e6e8e9 1px;
-	                padding-bottom: 0.2rem;
+	               display: flex;
+	               align-items:center;
+	               margin:20px 10px;
+	               .index{
+	               	margin:0 10px;
+	               }
 	                .wrapper {
-	                	display:inline-block;
+	                	flex:1;
 	                    .name {
-	                        font-size: 0.6rem;
+	                       font-size: 18px;
+	                       color:#333
 	                    }
 	                    .singer {
 	                        margin-top: 0.2rem;

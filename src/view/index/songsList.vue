@@ -2,10 +2,9 @@
   <div class="recommend">
     <div class="title" @click="goSongsList">
       <h4>推荐歌单</h4>
-      <!-- <img class="arrows" src="../../assets/right.svg" alt> -->
     </div>
     <div class="recommend-content" v-show="list">
-      <router-link  class="item" v-for="(item,index) in list"  :key="index" :to="'/songListDetail/'+item.id">
+      <router-link  class="item" v-for="(item,index) in list"  :key="index" :to="'/detail/'+item.id">
         <div
         >
           <img v-lazy="item.picUrl" alt="">
@@ -35,15 +34,7 @@ export default {
         path: "/songsList"
       });
     },
-    goSonglistDetail(id, picUrl) {
-      this.$router.push({
-        path: "/songListDetail",
-        query: {
-          id: id,
-          picUrl: picUrl
-        }
-      });
-    }
+   
   }
 };
 </script>

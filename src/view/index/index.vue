@@ -36,6 +36,7 @@ import { getFm } from "@/api/getFm.js";
 import { fmFormate, newSongsFormate } from "@/common/js/musicFormate.js";
 
 export default {
+  name:"index",
   data() {
     return {
       recommendSongList: [],
