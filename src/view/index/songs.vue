@@ -79,7 +79,7 @@ export default {
       padding: 0 15px;
       .item {
         color:#333;
-        padding: 0.4rem 0;
+        padding: 10px 0;
         border-bottom: solid #e6e8e9 1px;
         display: flex;
         align-items: center;

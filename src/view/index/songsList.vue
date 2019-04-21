@@ -61,7 +61,11 @@ export default {
     justify-content: space-between;
     .item {
       box-sizing: border-box;
-      width: 31%;
+      width:2.2rem;
+      height:2.2rem;
+      margin:5px 0;
+      border-radius: 6px;
+      overflow: hidden;
       img{
            border-radius: 6px;
       }

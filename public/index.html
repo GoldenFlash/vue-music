@@ -8,6 +8,11 @@
 
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>hello-world</title>
+    <style>
+      /* html{
+        font-size: 55.6px
+      } */
+    </style>
   </head>
   <body>
     <noscript>
@@ -16,4 +21,10 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+  <script>
+    var fontSize = document.documentElement.clientWidth / 750*100 + 'px';
+    console.log("fontSize", document.documentElement.clientWidth)
+    console.log("fontSize", fontSize)
+    document.documentElement.style.fontSize = fontSize
+  </script>
 </html>

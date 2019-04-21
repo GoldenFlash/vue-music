@@ -1,7 +1,7 @@
 <template>
 	<div class="songList-wrapper">
 		<navBar style="position: fixed;z-index: 10">歌单</navBar>
-		<div class="info" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}">
+		<div v-if="playlist" class="info" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}">
 			<div class="cover"  :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}"></div>
 			<div class="wrapper">
 				<div style="margin-top: 60px;display: flex;">
@@ -9,8 +9,8 @@
 						<img :src="playlist.coverImgUrl" alt="">
 					</div>
 					<div class="decoration">
-						<p>{{playlist.name}}</p>
-						<div>
+						<h3>{{playlist.name}}</h3>
+						<div style="margin-top:10px">
 							<div style="display: flex;align-items: center;">
 								<img style="width:30px;height: 30px;border-radius: 20px" :src="playlist.creator.avatarUrl">
 								<span style="font-size: 14px;margin-left: 5px;color:#e6e6e6">{{playlist.creator.nickname}}</span>
@@ -74,16 +74,11 @@
 	export default {
 	    data() {
 	        return {
-	            listId: '',
-	            listPicUrl: '',
-	            listName: '',
 	            songList: [],
-	            color:"red",
-	            playlist:{}
+	            playlist:""
 	        }
 	    },
 	    components: {
-	        // directer,
 	        scroll,
 	        navBar
 	    },
@@ -97,17 +92,12 @@
 	    		if(loop){
 	    			this.$store.commit('setPlayWay', loop);
 	    		}
-
 	    		this.$router.push({
 	    			path:'/player',
-	    			
 	    		})
-	    		
 	    	},
 	        getsongListDetail() {
-	        	// console.log(" this.$route", this.$route)
 	        	var listId = this.$route.params.id;
-	        	// this.listPicUrl = this.$route.query.picUrl;
 	            axios.get('/playlist/detail', {
 	                params: {
 	                    id: listId
@@ -115,14 +105,11 @@
 	            }).then((res) => {
 	               console.log(res)
 	               	this.playlist =res.data.playlist 
-	                this.songList = listDetailFormate(res.data.playlist.tracks);
-	                // this.listName = res.data.playlist.name;
-	                
+	                this.songList = listDetailFormate(res.data.playlist.tracks);	                
 	            })
 	        }
 	    },
 	    mounted() {
-	        
 	        this.getsongListDetail();
 	    },
 	}
@@ -131,7 +118,6 @@
 	.songList-wrapper {
 		height:100%;
 	    .info {
-			// width:100%;
 			height:250px;
 			position: relative;
 			overflow: hidden;
@@ -152,12 +138,10 @@
 	        .wrapper{
 	        	position: absolute;
 	        	z-index: 1;
-	        	// width:100%;
 	        	top:0;
 	        	left:0;
 	        	right: 0;
 				height:100%;
-				// border:solid yellow 1px;
 				background-color: rgba(0,0,0,0.4);
 				padding:0 20px;
 		        .listImg {
@@ -173,16 +157,13 @@
 		           margin-left: 20px;
 		            flex: 1;
 		            color: #FFFFFF;
-		            font-size:16px;
-		            margin-top: 0.2rem;
-		            line-height: 0.9rem;
+		            line-height: 1.4;
 		            overflow: hidden;
 					text-overflow:ellipsis;
 		        }
 		        .icon-wrapper{
 		        	display: flex;
 		        	justify-content: center;
-
 		        	margin-top: 10px;
 		        	.itemIcon{
 			        	flex:1;
@@ -191,7 +172,6 @@
 			        	align-items:center;
 			        	flex-direction:column;
 			        	img{
-			        		// height:30px;
 			        		width:30px
 			        	}
 			        	span{
@@ -200,10 +180,8 @@
 			        		font-size: 13px
 			        	}
 			        }
-		        }
-		        
+		        } 
 	        }
-	
 	    }
 	    .content {
 	        .title {
@@ -240,8 +218,8 @@
 	                       color:#333
 	                    }
 	                    .singer {
-	                        margin-top: 0.2rem;
-	                        font-size: 0.45rem;
+	                        margin-top:10px;
+	                        font-size:14px;
 	                        color: #666;
 	                    }
 	                }

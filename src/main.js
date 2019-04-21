@@ -8,6 +8,7 @@ import router from './router'
 import lazyload from 'vue-lazyload'
 import store from './store/store.js'
 
+import './style/reset.css'
 import './common/font-awesome-4.7.0/css/font-awesome.min.css'
 import './common/style/index.scss'
 
