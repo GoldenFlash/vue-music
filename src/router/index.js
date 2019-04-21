@@ -9,7 +9,7 @@ import detail from '@/view/detail/index.vue'
 // import rankingList from '@/components/rankingList/rankingList.vue'
 // import personalFM from '@/components/personalFM/personalFM.vue'
 // import playerFm from '@/components/player/player-fm.vue'
-// import player from '@/components/player/player-music.vue'
+import player from '@/components/player/player-music.vue'
 // import songListDetail from '@/components/songsList/songListDetail.vue'
 // import rankingListDetail from '@/components/rankingList/rankingListDetail.vue'
 // import search from '@/components/search/search.vue'
@@ -27,6 +27,12 @@ export default new Router({
       name:'detail',
       component:detail,
       meta:{index:1}
+    },
+     {
+      path:'/player',
+      name:'player',
+      component:player,
+       meta: {index: 10}
     },
     // {
     //   path: '/recommend',

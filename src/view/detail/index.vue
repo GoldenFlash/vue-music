@@ -1,6 +1,10 @@
 <template>
 	<div class="songList-wrapper">
-		<navBar style="position: fixed;z-index: 10">歌单</navBar>
+		
+		<div class="background" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}">
+			<div class="cover" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}"></div>
+			<navBar class="navbar">歌单</navBar>
+		</div>
 		<div v-if="playlist" class="info" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}">
 			<div class="cover"  :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}"></div>
 			<div class="wrapper">
@@ -13,9 +17,14 @@
 						<div style="margin-top:10px">
 							<div style="display: flex;align-items: center;">
 								<img style="width:30px;height: 30px;border-radius: 20px" :src="playlist.creator.avatarUrl">
-								<span style="font-size: 14px;margin-left: 5px;color:#e6e6e6">{{playlist.creator.nickname}}</span>
+								<span style="font-size: 14px;margin-left: 5px;color:rgba(255,255,255,0.6)">{{playlist.creator.nickname}}</span>
 								<img style="height:15px" src="./asset/right.svg">
 							</div>
+							<div style="display: flex;align-items: center;margin-top:5px">
+								<p class="description">{{playlist.description}}</p>
+								<img style="height:15px" src="./asset/right.svg">
+							</div>
+
 						</div>
 					</div>
 				</div>
@@ -59,7 +68,7 @@
 							</div>
 						</div>
 						<div class="menu">
-							<i class="fa fa-list" aria-hidden="true"></i>
+							<img src="./asset/cm4_list_icn_more@3x.png" alt="">
 						</div>
 					</li>
 				</ul>
@@ -107,18 +116,60 @@
 	               	this.playlist =res.data.playlist 
 	                this.songList = listDetailFormate(res.data.playlist.tracks);	                
 	            })
-	        }
+			},
+			onScroll(){
+
+				var el = document.documentElement||document.body
+				window.onscroll=()=>{
+					var scrollTop = el.scrollTop
+					console.log("scrollTop",scrollTop)
+				}
+				
+			}
 	    },
 	    mounted() {
-	        this.getsongListDetail();
+			this.getsongListDetail();
+			this.onScroll()
 	    },
 	}
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
 	.songList-wrapper {
 		height:100%;
+		
+		.background{
+			position: fixed;
+			z-index: 9;
+			height:64px;
+			width:100%;
+			background-position: 100px 0;
+			// position: relative;
+			overflow: hidden;
+			.navbar{
+				position: absolute;
+				background-color: rgba(0,0,0,0.4);
+
+				// top:0;
+				z-index: 10;
+				// background-color: red
+			}
+			.cover{
+				position: absolute;
+				top:50%;
+				left: 50%;
+				transform:translateX(-50%) translateY(-50%);
+				width:140%;
+				height:400px;
+				background-color:rgba(255,255,255,1);
+        		-webkit-filter: blur(20px);
+			    -moz-filter: blur(20px);
+			    -ms-filter: blur(20px);
+			    -o-filter: blur(20px);
+			    filter: blur(20px);
+			}
+		}
 	    .info {
-			height:250px;
+			height:280px;
 			position: relative;
 			overflow: hidden;
 			.cover{
@@ -127,7 +178,7 @@
 				left: 50%;
 				transform:translateX(-50%) translateY(-50%);
 				width:140%;
-				height:300px;
+				height:400px;
 				background-color:rgba(255,255,255,1);
         		-webkit-filter: blur(20px);
 			    -moz-filter: blur(20px);
@@ -144,9 +195,10 @@
 				height:100%;
 				background-color: rgba(0,0,0,0.4);
 				padding:0 20px;
+				padding-top:10px;
 		        .listImg {
-		           width:120px;
-				   height: 120px;
+		           width:130px;
+				   height: 130px;
 		            img {
 		                height: 100%;
 						width:100%;
@@ -160,6 +212,15 @@
 		            line-height: 1.4;
 		            overflow: hidden;
 					text-overflow:ellipsis;
+					.description{
+						height:40px;
+						line-height: 20px;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						font-size: 14px;
+						margin-left: 5px;
+						color:rgba(255, 255, 255, 0.6)
+					}
 		        }
 		        .icon-wrapper{
 		        	display: flex;
@@ -184,12 +245,13 @@
 	        }
 	    }
 	    .content {
+			padding:0 15px;
 	        .title {
 	            .button {
 	               display: flex;
 	               align-items:center;
 	               margin-top: 15px;
-	               margin-left: 10px;
+	            //    margin-left: 10px;
 	                .icon{
 	                   width:22px;
 	                   height:22px;
@@ -202,14 +264,13 @@
 	            }
 	        }
 	        .songs {
-	        	height:62vh;
-	        	overflow:hidden;
 	            .item {
 	               display: flex;
 	               align-items:center;
-	               margin:20px 10px;
+	               margin:20px 0px;
 	               .index{
-	               	margin:0 10px;
+					   margin-right:15px;
+					   color:#999
 	               }
 	                .wrapper {
 	                	flex:1;
@@ -225,7 +286,12 @@
 	                }
 	                .menu {
 	                	color:#666;
-	                    float: right;
+						float: right;
+						img{
+							width:30px;
+							transform: rotate(90deg)
+							
+						}
 	                }
 	            }
 	        }
