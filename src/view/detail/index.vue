@@ -1,12 +1,14 @@
 <template>
 	<div class="songList-wrapper">
 		
-		<div class="background" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}">
-			<div class="cover" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}"></div>
-			<navBar class="navbar">歌单</navBar>
+		<div class="background" >
+			<div class="wrapper" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}">
+				<div class="cover" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}"></div>
+				<navBar class="navbar">歌单</navBar>
+			</div>
 		</div>
-		<div v-if="playlist" class="info" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}">
-			<div class="cover"  :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}"></div>
+		<div class="info" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}">
+			<div class="cover" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}"></div>
 			<div class="wrapper">
 				<div style="margin-top: 60px;display: flex;">
 					<div class="listImg">
@@ -140,33 +142,39 @@
 		.background{
 			position: fixed;
 			z-index: 9;
-			height:64px;
+			height:50px;
 			width:100%;
-			background-position: 100px 0;
-			// position: relative;
 			overflow: hidden;
-			.navbar{
-				position: absolute;
-				background-color: rgba(0,0,0,0.4);
-
-				// top:0;
-				z-index: 10;
-				// background-color: red
+			.wrapper{
+				height:280px;
+				width:100%;
+				// background-position:0 0;
+				// position: relative;
+				// overflow: hidden;
+				.navbar{
+					position: absolute;
+					background-color: rgba(0,0,0,0.4);
+					z-index: 10;
+				}
+				.cover{
+					position: absolute;
+					z-index: 10;
+					// background-position:20px 20px;
+					top:50%;
+					left:50%;
+					transform:translateX(-50%) translateY(-50%);
+					width:140%;
+					height:400px;
+					background-color:rgba(255,255,255,1);
+					-webkit-filter: blur(20px);
+					-moz-filter: blur(20px);
+					-ms-filter: blur(20px);
+					-o-filter: blur(20px);
+					filter: blur(20px);
+				}
+				
 			}
-			.cover{
-				position: absolute;
-				top:50%;
-				left: 50%;
-				transform:translateX(-50%) translateY(-50%);
-				width:140%;
-				height:400px;
-				background-color:rgba(255,255,255,1);
-        		-webkit-filter: blur(20px);
-			    -moz-filter: blur(20px);
-			    -ms-filter: blur(20px);
-			    -o-filter: blur(20px);
-			    filter: blur(20px);
-			}
+			
 		}
 	    .info {
 			height:280px;
@@ -247,10 +255,16 @@
 	    .content {
 			padding:0 15px;
 	        .title {
+				position:sticky;
+				z-index: 11;
+				width:100%;
+				padding: 15px 0;
+				background-color: #fff;
+				top:50px;
 	            .button {
 	               display: flex;
 	               align-items:center;
-	               margin-top: 15px;
+	            //    margin-top: 15px;
 	            //    margin-left: 10px;
 	                .icon{
 	                   width:22px;

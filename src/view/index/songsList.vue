@@ -62,12 +62,15 @@ export default {
     .item {
       box-sizing: border-box;
       width:2.2rem;
-      height:2.2rem;
+      // height:2.2rem;
       margin:5px 0;
       border-radius: 6px;
       overflow: hidden;
       img{
-           border-radius: 6px;
+        width:2.2rem;
+        height:2.2rem;
+        overflow: hidden;
+        border-radius: 6px;
       }
       .description {
         margin: 5px 0;

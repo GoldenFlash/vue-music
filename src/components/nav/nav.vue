@@ -35,7 +35,7 @@
 	.nav{
 		// margin:0 20px;
 		width:100%;
-		height:64px;
+		height:50px;
 		// background-color: red;
 		display: flex;
 		align-items: center;
