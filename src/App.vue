@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <transition :name="transitionName" mode="out-in">
-      <keep-alive include="index">
+    <transition :name="transitionName">
+      <keep-alive>
         <router-view/>
       </keep-alive>
     </transition>
@@ -19,12 +19,27 @@ export default {
     $route(to, from) {
       console.log("routechange", to, from);
       if (to.meta.index > from.meta.index) {
-        this.transitionName = "slide-left";
+        this.transitionName = "turn-on";
       } else {
-        this.transitionName = "slide-right";
+        this.transitionName = "turn-off";
       }
     }
-  }
+	},
+	// methods: {
+  //   clickLink() {
+  //     this.$store.commit("setTransition", "turn-on");
+  //   }
+  // },
+  // mounted() {
+  //   var _this = this;
+  //   window.addEventListener(
+  //     "popstate",
+  //     function(e) {
+  //       _this.$store.commit("setTransition", "turn-off");
+  //     },
+  //     false
+  //   );
+  // }
 };
 </script>
 
@@ -39,62 +54,34 @@ body {
 
   margin: 0;
   background-color: #ffffff !important;
-  /* width:100%;
-		height:100vh;
-		overflow: scroll; */
+  
 }
 #app {
+	width:100%
 }
-
-.slide-fade{
-  position: absolute;left:0;right: 0;
-}
-.slide-fade-enter-active {
-  transition: all 1.2s ease;
-}
-.slide-fade-leave-active {
-
-  transition: all .1s cubic-bezier(2.0, 0.5, 0.8, 1.0);
-}
-.slide-fade-enter, .slide-fade-leave-to
-{
-  left:0;right: 0;
-  transform: translateX(50px);
-  opacity: 0;
-}
-
-.slide-left,
-.slide-right{
- position: absolute;
-	left:0;
-	right:0
-}
-.slide-left-enter-active,
-.slide-right-enter-active,
-.slide-right-leave-active,
-.slide-left-leave-active {
-  will-change: transform;
-  transition: all 400ms ease;
- 
-}
-.slide-right-enter {
-  opacity: 0;
-  transform: translate3d(-100%, 0, 0);
-  left: 0;
-}
-.slide-right-leave-active {
-  opacity: 0;
+.turn-on-enter {
   transform: translate3d(100%, 0, 0);
-  left: 0;
 }
-.slide-left-enter {
-  opacity: 0;
+.turn-on-leave-to {
+  /* transform: translate3d(-20%, 0, 0); */
+}
+.turn-on-enter-active,
+.turn-on-leave-active {
+  transition: transform 0.4s ease;
+}
+.turn-off-enter {
+  /* transform: translate3d(-20%, 0, 0); */
+}
+.turn-off-leave-to {
   transform: translate3d(100%, 0, 0);
-  right: 0;
 }
-.slide-left-leave-active {
-  opacity: 0;
-  transform: translate3d(-100%, 0, 0);
-  right: 0;
+.turn-off-enter-active,
+.turn-off-leave-active {
+  transition: transform 0.4s ease;
 }
+.turn-off-leave-active {
+  z-index: 2;
+}
+
+
 </style>

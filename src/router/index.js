@@ -4,6 +4,11 @@ import Router from 'vue-router'
 import index from '@/view/index/index.vue'
 import detail from '@/view/detail/index.vue'
 
+import A from '@/components/components/A'
+import B from '@/components/components/B'
+import C from '@/components/components/C'
+import D from '@/components/components/D'
+
 // import recommend from '@/components/recommend/recommend.vue'
 // import songsList from '@/components/songsList/songsList.vue'
 // import rankingList from '@/components/rankingList/rankingList.vue'
@@ -17,7 +22,8 @@ import player from '@/components/player/player-music.vue'
 Vue.use(Router)
 
 export default new Router({
-  routes: [{
+  routes: [
+    {
       path: '/',
       component: index,
       meta:{index:0}
@@ -34,46 +40,22 @@ export default new Router({
       component:player,
        meta: {index: 10}
     },
-    // {
-    //   path: '/recommend',
-    //   name: 'recommend',
-    //   component: recommend,
-    // },
-    // {
-    //   path:'/songsList',
-    //   name:'songsList',
-    //   component:songsList
-    // } ,
-    // {
-    //   path:'/rankingList',
-    //   name:'rankingList',
-    //   component:rankingList
-    // },
-    // {
-    //   path:'/personalFM',
-    //   name:'personalFM',
-    //   component:playerFm
-    // },
-    // {
-    //   path:'/player',
-    //   name:'player',
-    //   component:player,
-    // },
-   
-    // {
-    //   path:'/rankingListDetail',
-    //   name:'rankingListDetail',
-    //   component:rankingListDetail,
-    // },
-    // {
-    //   path:'/search',
-    //   name:'search',
-    //   component:search,
-    // },
-    // {
-    //   path:'/scroll',
-    //   name:'scroll',
-    //   component:scroll,
-    // }
+    {
+      path: '/A',
+      component: A
+    },
+    {
+      path: '/B',
+      component: B
+    },
+    {
+      path: '/C',
+      component: C
+    },
+    {
+      path: '/D',
+      component: D
+    }
+  
   ]
 })

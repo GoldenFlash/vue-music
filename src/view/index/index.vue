@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <v-header></v-header>
+    <!-- <v-header></v-header> -->
 
     <div v-if="banners.length" class="slider-wrapper" ref="sliderWrapper">
       <slider>
@@ -129,6 +129,11 @@ export default {
   height:100%;
   width: 100%;
   // padding:0 20px;
+  position: absolute;
+  top:0;
+  bottom:0;
+  // overflow: scroll;
+  // -webkit-overflow-scrolling: touch;    /* ios5+ */
 
 
   .scroll {

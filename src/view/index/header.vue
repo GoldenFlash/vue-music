@@ -45,6 +45,7 @@ import axios from 'axios';
 		width: 100%;
 		position: fixed;
 		z-index: 10;
+		top:0;
 	    background-color:#FFF;
 		box-sizing: border-box;
 		display: flex;

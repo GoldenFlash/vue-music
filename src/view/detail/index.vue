@@ -138,6 +138,12 @@
 <style lang="scss" rel="stylesheet/scss" scoped>
 	.songList-wrapper {
 		height:100%;
+		width:100%;
+		position: fixed;
+		top:0;
+		bottom:0;
+		background-color: #fff;
+		overflow: scroll;
 		
 		.background{
 			position: fixed;

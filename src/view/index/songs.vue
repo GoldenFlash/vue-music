@@ -104,7 +104,7 @@ export default {
         }
         .icon-play {
           display: flex;
-         margin-left:10px;
+          margin-left:10px;
           justify-content: flex-end;
           img {
             width: 30px;

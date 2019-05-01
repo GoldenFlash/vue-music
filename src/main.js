@@ -6,7 +6,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import lazyload from 'vue-lazyload'
-import store from './store/store.js'
+import vuex from 'vuex'
+
+// import store from './store/store.js'
 
 import './style/reset.css'
 import './common/font-awesome-4.7.0/css/font-awesome.min.css'
@@ -16,6 +18,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
+Vue.use(vuex);
 
 
 Vue.config.productionTip = false
@@ -32,7 +35,16 @@ Vue.use(lazyload,{
     }
 )
 /* eslint-disable no-new */
-
+var store = new vuex.Store({//store对象
+  state: {
+    states: 'turn-on'
+  },
+  mutations: {
+    setTransition(state, states) {
+      state.states = states
+    }
+  }
+})
 
 new Vue({
   store,
