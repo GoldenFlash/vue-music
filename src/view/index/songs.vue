@@ -84,11 +84,17 @@ export default {
         display: flex;
         align-items: center;
         .songs-info {
+          flex:1;
           white-space: nowrap;
-          overflow: hidden;
           text-overflow: ellipsis;
+          overflow: hidden;
           .name {
+            width:100%;
             font-size: 18px;
+            overflow: hidden;
+            white-space: nowrap;
+           
+            text-overflow: ellipsis;
           }
           .singer {
             margin-top: 5px;
@@ -98,7 +104,7 @@ export default {
         }
         .icon-play {
           display: flex;
-          flex: 1;
+         margin-left:10px;
           justify-content: flex-end;
           img {
             width: 30px;

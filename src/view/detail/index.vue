@@ -2,13 +2,13 @@
 	<div class="songList-wrapper">
 		
 		<div class="background" >
-			<div class="wrapper" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}">
-				<div class="cover" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}"></div>
+			<div class="wrapper">
+				<div v-if="playlist" class="cover" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}"></div>
 				<navBar class="navbar">歌单</navBar>
 			</div>
 		</div>
-		<div class="info" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}">
-			<div class="cover" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}"></div>
+		<div class="info">
+			<div v-if="playlist" class="cover" :style="{backgroundImage: 'url('+playlist.coverImgUrl+')',backgroundSize:'cover'}"></div>
 			<div class="wrapper">
 				<div style="margin-top: 60px;display: flex;">
 					<div class="listImg">
@@ -17,8 +17,8 @@
 					<div class="decoration">
 						<h3>{{playlist.name}}</h3>
 						<div style="margin-top:10px">
-							<div style="display: flex;align-items: center;">
-								<img style="width:30px;height: 30px;border-radius: 20px" :src="playlist.creator.avatarUrl">
+							<div v-if="playlist" style="display: flex;align-items: center;">
+								<img  style="width:30px;height: 30px;border-radius: 20px" :src="playlist.creator.avatarUrl">
 								<span style="font-size: 14px;margin-left: 5px;color:rgba(255,255,255,0.6)">{{playlist.creator.nickname}}</span>
 								<img style="height:15px" src="./asset/right.svg">
 							</div>
